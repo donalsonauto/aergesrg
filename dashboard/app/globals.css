@@ -1,0 +1,35 @@
+@import "tailwindcss";
+
+/* Design tokens from reference/DESIGN.md: dark, dense, calm. */
+:root {
+  --bg: #0a0a0f;
+  --bg-card: #14141c;
+  --bg-elevated: #1c1c26;
+  --border: rgba(255, 255, 255, 0.15);
+  --fg: #f2f2f7;
+  --fg-muted: #8a8a99;
+
+  --accent: #7c6cff;
+  --success: #34d399;
+  --info: #22d3ee;
+  --warning: #fbbf24;
+  --danger: #f87171;
+}
+
+html,
+body {
+  background: var(--bg);
+  color: var(--fg);
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    Helvetica, Arial, sans-serif;
+  font-feature-settings: "tnum" 1, "cv01" 1;
+}
+
+/* Tabular figures so numbers line up column to column. */
+.tnum {
+  font-variant-numeric: tabular-nums;
+}

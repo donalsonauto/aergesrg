@@ -1,0 +1,15 @@
+*.csv
+!sample-data/leads_monthly.csv
+# demo-data/ is fully synthetic (no real dealer, no PII), so it ships with the repo
+!demo-data/*.csv
+!demo-data/normalization/*.csv
+node_modules/
+.next/
+.env*
+!.env.example
+# the DB is a copy of the dealer's numbers; never commit it
+data/*.db
+data/*.db-*
+tsconfig.tsbuildinfo
+# Keynote files are derived from site/deck/*.pptx (see tools/deck/README.md); too large for git
+*.key

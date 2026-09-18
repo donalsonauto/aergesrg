@@ -1,0 +1,32 @@
+{
+  "name": "dealer-dashboard",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "load": "tsx scripts/load.ts",
+    "checks": "tsx scripts/checks.ts",
+    "prove": "tsx scripts/prove-rollup.ts",
+    "recovery": "tsx scripts/recovery-report.ts",
+    "audit": "tsx scripts/audit-screen.ts"
+  },
+  "dependencies": {
+    "better-sqlite3": "^11.8.1",
+    "next": "^15.5.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "recharts": "^2.15.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.0.0",
+    "@types/better-sqlite3": "^7.6.11",
+    "@types/node": "^22.10.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "tailwindcss": "^4.0.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  }
+}
