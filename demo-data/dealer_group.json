@@ -1,0 +1,327 @@
+{
+  "agency_id": "northline-automotive-partners",
+  "agency_name": "Northline Automotive Partners",
+  "groups": [
+    {
+      "group_id": "summit-auto-group",
+      "group_name": "Summit Auto Group",
+      "rooftops": [
+        {
+          "store_id": "smt-toy-fairview",
+          "store": "Summit Toyota of Fairview",
+          "brand": "Toyota",
+          "region": "West"
+        },
+        {
+          "store_id": "smt-hon-westland",
+          "store": "Summit Honda Westland",
+          "brand": "Honda",
+          "region": "West"
+        },
+        {
+          "store_id": "smt-frd-rivera",
+          "store": "Summit Ford Rivera",
+          "brand": "Ford",
+          "region": "South"
+        },
+        {
+          "store_id": "smt-chv-glenpark",
+          "store": "Summit Chevrolet Glenpark",
+          "brand": "Chevrolet",
+          "region": "South"
+        },
+        {
+          "store_id": "smt-nsn-ridgemont",
+          "store": "Summit Nissan Ridgemont",
+          "brand": "Nissan",
+          "region": "North"
+        },
+        {
+          "store_id": "smt-hyu-oakhurst",
+          "store": "Summit Hyundai Oakhurst",
+          "brand": "Hyundai",
+          "region": "North"
+        },
+        {
+          "store_id": "smt-kia-brookfield",
+          "store": "Summit Kia Brookfield",
+          "brand": "Kia",
+          "region": "East"
+        },
+        {
+          "store_id": "smt-maz-lakeside",
+          "store": "Summit Mazda Lakeside",
+          "brand": "Mazda",
+          "region": "East"
+        },
+        {
+          "store_id": "smt-sub-northgate",
+          "store": "Summit Subaru Northgate",
+          "brand": "Subaru",
+          "region": "North"
+        },
+        {
+          "store_id": "smt-jep-clearwater",
+          "store": "Summit Jeep Ram Clearwater",
+          "brand": "Jeep Ram",
+          "region": "South"
+        },
+        {
+          "store_id": "smt-vw-eastdale",
+          "store": "Summit Volkswagen Eastdale",
+          "brand": "Volkswagen",
+          "region": "East"
+        },
+        {
+          "store_id": "smt-bmw-summit",
+          "store": "Summit BMW",
+          "brand": "BMW",
+          "region": "West"
+        }
+      ]
+    },
+    {
+      "group_id": "harbor-motor-group",
+      "group_name": "Harbor Motor Group",
+      "rooftops": [
+        {
+          "store_id": "hbr-toy-bayview",
+          "store": "Harbor Toyota Bayview",
+          "brand": "Toyota",
+          "region": "Coast"
+        },
+        {
+          "store_id": "hbr-hon-seaside",
+          "store": "Harbor Honda Seaside",
+          "brand": "Honda",
+          "region": "Coast"
+        },
+        {
+          "store_id": "hbr-frd-portside",
+          "store": "Harbor Ford Portside",
+          "brand": "Ford",
+          "region": "Coast"
+        },
+        {
+          "store_id": "hbr-chv-marina",
+          "store": "Harbor Chevrolet Marina",
+          "brand": "Chevrolet",
+          "region": "Inland"
+        },
+        {
+          "store_id": "hbr-kia-lighthouse",
+          "store": "Harbor Kia Lighthouse",
+          "brand": "Kia",
+          "region": "Inland"
+        },
+        {
+          "store_id": "hbr-sub-tidewater",
+          "store": "Harbor Subaru Tidewater",
+          "brand": "Subaru",
+          "region": "Coast"
+        },
+        {
+          "store_id": "hbr-jep-anchor",
+          "store": "Harbor Jeep Ram Anchor",
+          "brand": "Jeep Ram",
+          "region": "Inland"
+        },
+        {
+          "store_id": "hbr-bmw-harbor",
+          "store": "Harbor BMW",
+          "brand": "BMW",
+          "region": "Coast"
+        }
+      ]
+    }
+  ],
+  "rooftops": [
+    {
+      "store_id": "smt-toy-fairview",
+      "store": "Summit Toyota of Fairview",
+      "brand": "Toyota",
+      "region": "West",
+      "group_id": "summit-auto-group"
+    },
+    {
+      "store_id": "smt-hon-westland",
+      "store": "Summit Honda Westland",
+      "brand": "Honda",
+      "region": "West",
+      "group_id": "summit-auto-group"
+    },
+    {
+      "store_id": "smt-frd-rivera",
+      "store": "Summit Ford Rivera",
+      "brand": "Ford",
+      "region": "South",
+      "group_id": "summit-auto-group"
+    },
+    {
+      "store_id": "smt-chv-glenpark",
+      "store": "Summit Chevrolet Glenpark",
+      "brand": "Chevrolet",
+      "region": "South",
+      "group_id": "summit-auto-group"
+    },
+    {
+      "store_id": "smt-nsn-ridgemont",
+      "store": "Summit Nissan Ridgemont",
+      "brand": "Nissan",
+      "region": "North",
+      "group_id": "summit-auto-group"
+    },
+    {
+      "store_id": "smt-hyu-oakhurst",
+      "store": "Summit Hyundai Oakhurst",
+      "brand": "Hyundai",
+      "region": "North",
+      "group_id": "summit-auto-group"
+    },
+    {
+      "store_id": "smt-kia-brookfield",
+      "store": "Summit Kia Brookfield",
+      "brand": "Kia",
+      "region": "East",
+      "group_id": "summit-auto-group"
+    },
+    {
+      "store_id": "smt-maz-lakeside",
+      "store": "Summit Mazda Lakeside",
+      "brand": "Mazda",
+      "region": "East",
+      "group_id": "summit-auto-group"
+    },
+    {
+      "store_id": "smt-sub-northgate",
+      "store": "Summit Subaru Northgate",
+      "brand": "Subaru",
+      "region": "North",
+      "group_id": "summit-auto-group"
+    },
+    {
+      "store_id": "smt-jep-clearwater",
+      "store": "Summit Jeep Ram Clearwater",
+      "brand": "Jeep Ram",
+      "region": "South",
+      "group_id": "summit-auto-group"
+    },
+    {
+      "store_id": "smt-vw-eastdale",
+      "store": "Summit Volkswagen Eastdale",
+      "brand": "Volkswagen",
+      "region": "East",
+      "group_id": "summit-auto-group"
+    },
+    {
+      "store_id": "smt-bmw-summit",
+      "store": "Summit BMW",
+      "brand": "BMW",
+      "region": "West",
+      "group_id": "summit-auto-group"
+    },
+    {
+      "store_id": "hbr-toy-bayview",
+      "store": "Harbor Toyota Bayview",
+      "brand": "Toyota",
+      "region": "Coast",
+      "group_id": "harbor-motor-group"
+    },
+    {
+      "store_id": "hbr-hon-seaside",
+      "store": "Harbor Honda Seaside",
+      "brand": "Honda",
+      "region": "Coast",
+      "group_id": "harbor-motor-group"
+    },
+    {
+      "store_id": "hbr-frd-portside",
+      "store": "Harbor Ford Portside",
+      "brand": "Ford",
+      "region": "Coast",
+      "group_id": "harbor-motor-group"
+    },
+    {
+      "store_id": "hbr-chv-marina",
+      "store": "Harbor Chevrolet Marina",
+      "brand": "Chevrolet",
+      "region": "Inland",
+      "group_id": "harbor-motor-group"
+    },
+    {
+      "store_id": "hbr-kia-lighthouse",
+      "store": "Harbor Kia Lighthouse",
+      "brand": "Kia",
+      "region": "Inland",
+      "group_id": "harbor-motor-group"
+    },
+    {
+      "store_id": "hbr-sub-tidewater",
+      "store": "Harbor Subaru Tidewater",
+      "brand": "Subaru",
+      "region": "Coast",
+      "group_id": "harbor-motor-group"
+    },
+    {
+      "store_id": "hbr-jep-anchor",
+      "store": "Harbor Jeep Ram Anchor",
+      "brand": "Jeep Ram",
+      "region": "Inland",
+      "group_id": "harbor-motor-group"
+    },
+    {
+      "store_id": "hbr-bmw-harbor",
+      "store": "Harbor BMW",
+      "brand": "BMW",
+      "region": "Coast",
+      "group_id": "harbor-motor-group"
+    }
+  ],
+  "period_range": [
+    "2023-10",
+    "2026-09"
+  ],
+  "months": 36,
+  "metric_files": {
+    "leads": "leads_monthly.csv",
+    "inventory": "inventory_monthly.csv",
+    "spend": "spend_monthly.csv",
+    "ga4": "ga4_channels.csv",
+    "service": "service_monthly.csv"
+  },
+  "detail_files": {
+    "dms_deals": {
+      "file": "dms_deals.csv",
+      "grain": "one row per sold vehicle, 36 months; front_gross + back_gross per store/month/source sums to leads_monthly.gross, deal count to sales"
+    },
+    "crm_leads": {
+      "file": "crm_leads.csv",
+      "grain": "one row per lead, last 13 months; count per store/month/source equals leads_monthly.leads, sold=1 count equals sales"
+    },
+    "inventory_units": {
+      "file": "inventory_units.csv",
+      "grain": "one row per vehicle on the lot as of completed_through; no VINs, synthetic stock numbers"
+    }
+  },
+  "normalization": "normalization/source_aliases.csv",
+  "knowledge": "knowledge",
+  "scenario_version": 3,
+  "seed": 20260916,
+  "completed_through": "2026-09",
+  "currency": "USD",
+  "cutover": {
+    "store_id": "smt-hyu-oakhurst",
+    "lead_type": "internet",
+    "first_missing_month": "2025-08"
+  },
+  "notes": [
+    "two dealer groups under one agency; every file carries group and store, and the flattened rooftops list carries group_id, so a loader can build agency -> group -> dealership without guessing",
+    "source names in leads_monthly.csv are RAW and differ across rooftops; map them with normalization/source_aliases.csv",
+    "every month through completed_through is a complete month; a source with no row in a month had no activity that month (the export is zero-suppressed)",
+    "Summit Hyundai Oakhurst has a CRM cutover: its internet feed drops to zero partway through the window. The store keeps selling; those sales appear under Walk In. Feed loss, not lost business: the recovery screen must flag it, not count it as recoverable revenue"
+  ],
+  "database": {
+    "file": "demo.db",
+    "note": "the same eight files already loaded into the framework's SQLite schema (recipes/data-model.md) by framework/framework-app/scripts/load.ts: 2 groups, 20 rooftops, 13 canonical sources from 35 raw spellings, 8,316 monthly lead rows plus inventory, spend and GA4 facts. Copy it to data/dealer.db to skip the load; run the load to rebuild it from the CSVs."
+  }
+}

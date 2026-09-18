@@ -1,0 +1,212 @@
+{
+  "scenario_version": 3,
+  "period_range": [
+    "2023-10",
+    "2026-09"
+  ],
+  "analysis_month": "2026-09",
+  "rows": {
+    "leads_monthly": 8316,
+    "inventory_monthly": 720,
+    "spend_monthly": 1440,
+    "ga4_channels": 5040,
+    "service_monthly": 3600,
+    "dms_deals": 102159,
+    "inventory_units": 3344,
+    "crm_leads": 277859
+  },
+  "reconciliation": {
+    "dms_deals_count_equals_total_sales": true,
+    "crm_leads_count_last_13_months": 277859,
+    "crm_leads_sold_equals_sales_last_13_months": true
+  },
+  "raw_source_spellings": 35,
+  "canonical_sources": 13,
+  "agency_latest_month": {
+    "leads": 19396,
+    "sales": 2237,
+    "gross": 7459483,
+    "closing_ratio_pct": 11.5333,
+    "rooftops": 20
+  },
+  "groups_latest_month": {
+    "Summit Auto Group": {
+      "leads": 11178,
+      "sales": 1330,
+      "gross": 4361122,
+      "closing_ratio_pct": 11.8984,
+      "mean_of_store_ratios_pct_WRONG": 12.658,
+      "rooftops": 12
+    },
+    "Harbor Motor Group": {
+      "leads": 8218,
+      "sales": 907,
+      "gross": 3098361,
+      "closing_ratio_pct": 11.0367,
+      "mean_of_store_ratios_pct_WRONG": 11.0818,
+      "rooftops": 8
+    }
+  },
+  "group_latest_month": {
+    "leads": 11178,
+    "sales": 1330,
+    "gross": 4361122,
+    "closing_ratio_pct": 11.8984,
+    "mean_of_store_ratios_pct_WRONG": 12.658,
+    "rooftops": 12
+  },
+  "stores_latest_month": {
+    "Harbor BMW": {
+      "leads": 1104,
+      "sales": 126,
+      "gross": 631548,
+      "closing_ratio_pct": 11.413
+    },
+    "Harbor Chevrolet Marina": {
+      "leads": 997,
+      "sales": 121,
+      "gross": 358398,
+      "closing_ratio_pct": 12.1364
+    },
+    "Harbor Ford Portside": {
+      "leads": 1339,
+      "sales": 141,
+      "gross": 446538,
+      "closing_ratio_pct": 10.5302
+    },
+    "Harbor Honda Seaside": {
+      "leads": 1078,
+      "sales": 126,
+      "gross": 396714,
+      "closing_ratio_pct": 11.6883
+    },
+    "Harbor Jeep Ram Anchor": {
+      "leads": 962,
+      "sales": 101,
+      "gross": 332566,
+      "closing_ratio_pct": 10.499
+    },
+    "Harbor Kia Lighthouse": {
+      "leads": 798,
+      "sales": 90,
+      "gross": 275496,
+      "closing_ratio_pct": 11.2782
+    },
+    "Harbor Subaru Tidewater": {
+      "leads": 655,
+      "sales": 72,
+      "gross": 234308,
+      "closing_ratio_pct": 10.9924
+    },
+    "Harbor Toyota Bayview": {
+      "leads": 1285,
+      "sales": 130,
+      "gross": 422793,
+      "closing_ratio_pct": 10.1167
+    },
+    "Summit BMW": {
+      "leads": 1142,
+      "sales": 138,
+      "gross": 668866,
+      "closing_ratio_pct": 12.0841
+    },
+    "Summit Chevrolet Glenpark": {
+      "leads": 1104,
+      "sales": 125,
+      "gross": 387430,
+      "closing_ratio_pct": 11.3225
+    },
+    "Summit Ford Rivera": {
+      "leads": 1351,
+      "sales": 173,
+      "gross": 534380,
+      "closing_ratio_pct": 12.8053
+    },
+    "Summit Honda Westland": {
+      "leads": 1161,
+      "sales": 133,
+      "gross": 388713,
+      "closing_ratio_pct": 11.4556
+    },
+    "Summit Hyundai Oakhurst": {
+      "leads": 347,
+      "sales": 92,
+      "gross": 280193,
+      "closing_ratio_pct": 26.513
+    },
+    "Summit Jeep Ram Clearwater": {
+      "leads": 1037,
+      "sales": 115,
+      "gross": 395080,
+      "closing_ratio_pct": 11.0897
+    },
+    "Summit Kia Brookfield": {
+      "leads": 795,
+      "sales": 83,
+      "gross": 265248,
+      "closing_ratio_pct": 10.4403
+    },
+    "Summit Mazda Lakeside": {
+      "leads": 641,
+      "sales": 68,
+      "gross": 199242,
+      "closing_ratio_pct": 10.6084
+    },
+    "Summit Nissan Ridgemont": {
+      "leads": 906,
+      "sales": 108,
+      "gross": 316515,
+      "closing_ratio_pct": 11.9205
+    },
+    "Summit Subaru Northgate": {
+      "leads": 699,
+      "sales": 89,
+      "gross": 273464,
+      "closing_ratio_pct": 12.7325
+    },
+    "Summit Toyota of Fairview": {
+      "leads": 1429,
+      "sales": 145,
+      "gross": 456399,
+      "closing_ratio_pct": 10.147
+    },
+    "Summit Volkswagen Eastdale": {
+      "leads": 566,
+      "sales": 61,
+      "gross": 195592,
+      "closing_ratio_pct": 10.7774
+    }
+  },
+  "planted": {
+    "dormant_group_level": [
+      "Direct Mail Q1",
+      "Radio Spot",
+      "Service Conquest"
+    ],
+    "declining_group_level": [
+      "CarGurus",
+      "Lease Return",
+      "TrueCar"
+    ],
+    "steady": [
+      "Autotrader",
+      "Cars.com",
+      "Dealer Website",
+      "Facebook Marketplace",
+      "Inbound Calls",
+      "Walk In",
+      "Website Chat"
+    ],
+    "feed_loss": {
+      "store": "Summit Hyundai Oakhurst",
+      "lead_type": "internet",
+      "first_missing_month": "2025-08",
+      "note": "every internet source at this store goes to zero leads in the same month while Walk In sales jump; flag as feed loss, exclude from the recoverable headline"
+    }
+  },
+  "thin_source": {
+    "name": "Radio Spot",
+    "note": "at most 3 sales in the whole window at any single rooftop, so per rooftop it is dormant with 'insufficient data' and in neither headline; pooled for the group it has 18 sales and does get an estimate. That difference is the point"
+  },
+  "how_to_use": "compare unrounded totals exactly; recovery estimates depend on the window and the 5-sale floor, so check statuses and the feed-loss flag rather than dollars"
+}

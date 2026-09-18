@@ -1,0 +1,377 @@
+<!-- Author: Alex Oleynik, alexanderoleynik2@gmail.com. Find me in the Claude for Dealers Slack (https://claudefordealers.slack.com/team/U0C2J6K79CN) or on LinkedIn (https://www.linkedin.com/in/alexanderoleynik/). Free to use for the Claude for Dealers community. Keep this line when you or your agent change the file, so you know who to ask for help. -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>OhMyDash! - get ready</title>
+<meta name="description" content="Claude for Dealers, Atlanta. Build a Revenue Recovery dashboard on your own CRM data in 90 minutes. Everything you need to set up before you arrive.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230a0a0f'/%3E%3Ctext x='50' y='50' font-family='Inter,sans-serif' font-size='62' font-weight='800' fill='%237c6cff' text-anchor='middle' dominant-baseline='central'%3E!%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0a0f;--bg-card:#14141c;--bg-elev:#1c1c26;
+  --border:rgba(255,255,255,.09);--border-strong:rgba(255,255,255,.17);
+  --fg:#f2f2f7;--fg-muted:#8a8a99;
+  --accent:#7c6cff;--success:#34d399;--info:#22d3ee;--warning:#fbbf24;--danger:#f87171;
+  --sans:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --w:960px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--fg);font-family:var(--sans);-webkit-font-smoothing:antialiased;line-height:1.55}
+.wrap{max-width:var(--w);margin:0 auto;padding:0 22px}
+a{color:var(--accent)}
+
+/* nav */
+nav{position:sticky;top:0;z-index:50;background:rgba(10,10,15,.88);backdrop-filter:blur(14px);border-bottom:1px solid var(--border)}
+nav .wrap{display:flex;align-items:center;gap:20px;height:56px}
+.logo{font-weight:800;font-size:16px;letter-spacing:-.02em}
+.logo span{color:var(--accent)}
+nav .links{display:flex;gap:18px;margin-left:auto;font-size:13.5px;font-weight:500}
+nav .links a{color:var(--fg-muted);text-decoration:none}
+nav .links a:hover{color:var(--fg)}
+
+/* hero */
+header{padding:clamp(52px,9vw,104px) 0 clamp(34px,5vw,56px);border-bottom:1px solid var(--border)}
+.kicker{
+  display:inline-block;padding:5px 12px;border-radius:99px;background:rgba(124,108,255,.13);
+  color:var(--accent);font:700 11px/1.5 var(--sans);letter-spacing:.11em;text-transform:uppercase;margin-bottom:22px;
+}
+h1{font-size:clamp(38px,7vw,74px);font-weight:800;letter-spacing:-.037em;line-height:1.01}
+h1 span{color:var(--accent)}
+.sub{margin-top:20px;font-size:clamp(17px,2.1vw,22px);color:var(--fg-muted);max-width:64ch}
+.sub b{color:var(--fg);font-weight:600}
+
+h2{font-size:clamp(25px,3.4vw,36px);font-weight:700;letter-spacing:-.028em;margin-bottom:9px;scroll-margin-top:74px}
+.slug{color:var(--fg-muted);font-size:clamp(15px,1.7vw,17.5px);margin-bottom:26px;max-width:70ch}
+section{padding:clamp(44px,6.5vw,76px) 0;border-bottom:1px solid var(--border)}
+
+.grid{display:grid;gap:15px;grid-template-columns:repeat(auto-fit,minmax(212px,1fr))}
+.card{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:21px}
+.card.hero{background:linear-gradient(155deg,rgba(124,108,255,.14),rgba(124,108,255,.02));border-color:rgba(124,108,255,.3)}
+.card h3{font-size:16px;font-weight:650;margin-bottom:7px;letter-spacing:-.01em}
+.card p{color:var(--fg-muted);font-size:14.5px}
+.klabel{font:600 10.5px/1 var(--sans);letter-spacing:.13em;text-transform:uppercase;color:var(--fg-muted);margin-bottom:12px}
+.kval{font-size:36px;font-weight:800;letter-spacing:-.035em;line-height:1}
+.card.hero .kval{color:var(--accent)}
+.ksub{margin-top:8px;font-size:13.5px;color:var(--fg-muted)}
+
+/* steps */
+ol.steps{list-style:none;counter-reset:s}
+ol.steps>li{counter-increment:s;position:relative;padding:0 0 26px 52px;border-left:1px solid var(--border);margin-left:15px}
+ol.steps>li:last-child{border-left-color:transparent;padding-bottom:0}
+ol.steps>li::before{
+  content:counter(s);position:absolute;left:-15px;top:-3px;width:30px;height:30px;border-radius:50%;
+  background:var(--bg-elev);border:1px solid var(--border-strong);color:var(--fg);
+  font:700 13px/28px var(--sans);text-align:center;
+}
+ol.steps h3{font-size:18px;font-weight:650;letter-spacing:-.012em;margin-bottom:5px}
+ol.steps p{color:var(--fg-muted);font-size:15px;margin-bottom:11px}
+.opt{display:inline-block;margin-left:8px;padding:2px 8px;border-radius:99px;background:rgba(255,255,255,.07);color:var(--fg-muted);font:700 10px/1.7 var(--sans);letter-spacing:.08em;text-transform:uppercase;vertical-align:2px}
+.opt.need{background:rgba(124,108,255,.16);color:var(--accent)}
+
+/* code */
+.code{
+  position:relative;background:#0d0d14;border:1px solid var(--border);border-radius:9px;
+  padding:13px 52px 13px 15px;font-family:var(--mono);font-size:13px;line-height:1.7;
+  color:#dcdce6;overflow-x:auto;white-space:pre;margin:9px 0;
+}
+.code .c{color:#5f6070}
+.cp{
+  position:absolute;top:8px;right:8px;background:var(--bg-elev);border:1px solid var(--border-strong);
+  color:var(--fg-muted);border-radius:6px;padding:5px 10px;font:600 11px/1 var(--sans);cursor:pointer;
+}
+.cp:hover{color:var(--fg);border-color:var(--accent)}
+.cp.ok{background:var(--success);color:#04231a;border-color:var(--success)}
+
+/* os tabs */
+.os{display:flex;gap:6px;margin:14px 0 2px}
+.ost{
+  background:transparent;border:1px solid var(--border);color:var(--fg-muted);border-radius:8px;
+  padding:7px 14px;font:600 12.5px/1 var(--sans);cursor:pointer;
+}
+.ost:hover{color:var(--fg)}
+.ost.on{background:var(--accent);border-color:var(--accent);color:#fff}
+[data-os]{display:none}
+[data-os].show{display:block}
+
+table{width:100%;border-collapse:collapse;font-size:14.5px;margin-top:6px}
+th{text-align:left;font:700 10px/1 var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--fg-muted);padding:0 12px 10px 0;border-bottom:1px solid var(--border)}
+td{padding:10px 12px 10px 0;border-bottom:1px solid var(--border);vertical-align:top}
+tr:last-child td{border-bottom:0}
+td.n{color:var(--fg-muted)}
+code{font-family:var(--mono);font-size:.9em;color:var(--info)}
+.req{color:var(--accent);font-weight:600}
+
+.faq{border-top:1px solid var(--border)}
+.faq details{border-bottom:1px solid var(--border)}
+.faq summary{padding:17px 0;font-size:16.5px;font-weight:600;cursor:pointer;list-style:none;display:flex;gap:12px;align-items:flex-start;letter-spacing:-.01em}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::before{content:"+";color:var(--accent);font-weight:700;font-size:19px;line-height:1.25;flex:0 0 auto}
+.faq details[open] summary::before{content:"\2212"}
+.faq .a{padding:0 0 19px 26px;color:var(--fg-muted);font-size:15.5px;max-width:74ch}
+.faq .a p+p{margin-top:11px}
+.faq .a b{color:var(--fg);font-weight:600}
+
+.callout{background:var(--bg-card);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:11px;padding:20px 22px;margin-top:22px}
+.callout.warn{border-left-color:var(--warning)}
+.callout h3{font-size:16.5px;font-weight:650;margin-bottom:7px}
+.callout p{color:var(--fg-muted);font-size:15px}
+.callout p+p{margin-top:10px}
+.callout b{color:var(--fg);font-weight:600}
+
+.cta{display:inline-flex;align-items:center;gap:9px;background:var(--accent);color:#fff;text-decoration:none;border-radius:10px;padding:14px 24px;font-weight:650;font-size:15.5px;margin-top:8px}
+.cta:hover{filter:brightness(1.12)}
+.cta.ghost{background:transparent;border:1px solid var(--border-strong);color:var(--fg)}
+
+footer{padding:44px 0 60px;color:var(--fg-muted);font-size:14px}
+footer b{color:var(--fg)}
+.fill{background:rgba(251,191,36,.14);color:var(--warning);padding:1px 7px;border-radius:5px;font-weight:600}
+
+@media(max-width:640px){
+  nav .links{display:none}
+  ol.steps>li{padding-left:40px}
+  .code{font-size:12px}
+}
+</style>
+</head>
+<body>
+
+<nav><div class="wrap">
+  <div class="logo">OhMyDash<span>!</span></div>
+  <div class="links">
+    <a href="#build">What you build</a><a href="#bring">What to bring</a>
+    <a href="#setup">Setup</a><a href="#safe">Is my data safe?</a><a href="deck.html">The deck</a>
+  </div>
+</div></nav>
+
+<header><div class="wrap">
+  <div class="kicker">Claude for Dealers &middot; Atlanta &middot; 90 minutes</div>
+  <h1>OhMyDash<span>!</span></h1>
+  <p class="sub">You bring one spreadsheet out of your CRM. You leave with a working dashboard that finds the lead sources that <b>used to make you money and no longer do</b>, and puts a dollar figure on winning them back.</p>
+  <p class="sub" style="margin-top:14px">It runs on your laptop before you leave. Put it online later if you want.</p>
+  <div style="margin-top:30px;display:flex;gap:11px;flex-wrap:wrap">
+    <a class="cta" href="#setup">Get set up &rarr;</a>
+    <a class="cta ghost" href="deck.html">See the session</a>
+  </div>
+</div></header>
+
+<section id="build"><div class="wrap">
+  <h2>What you walk out with</h2>
+  <p class="slug">Four panels, in this order. Your numbers are on screen inside twenty minutes.</p>
+  <div class="grid">
+    <div class="card hero"><div class="klabel">Recoverable revenue</div><div class="kval">$583.4K</div><div class="ksub">Four KPI cards. The headline number, with the assumption printed under it.</div></div>
+    <div class="card"><div class="klabel">Ranked source list</div><div class="kval">18</div><div class="ksub">Every lead source, sorted by opportunity, expandable. The list you take to a vendor meeting.</div></div>
+    <div class="card"><div class="klabel">Performance timeline</div><div class="kval">36mo</div><div class="ksub">Sales, leads and closing ratio on one chart. Where a dead source becomes obvious.</div></div>
+    <div class="card"><div class="klabel">On your laptop</div><div class="kval">0</div><div class="ksub">accounts to create. Runs locally. Online later, behind a password, if you want.</div></div>
+  </div>
+  <div class="callout">
+    <h3>Who this is for</h3>
+    <p>Dealer principals, GMs, marketing and ops leaders. <b>No coding, and none will be taught.</b> You describe what you want and check what comes back. Start by checking the closing ratio against what you normally see.</p>
+  </div>
+</div></section>
+
+<section id="bring"><div class="wrap">
+  <h2>What to bring</h2>
+  <p class="slug">One CSV. Ten columns. One row per month, per lead source, per store. Every number on the screen is calculated from it.</p>
+
+  <div class="code"><span class="c">period,store,source,lead_type,leads,sales,new_sales,used_sales,gross,budget</span>
+2025-07,Nissan Boardman,Autotrader,internet,346,21,9,12,69851,4200
+2025-07,Nissan Boardman,Cars.com,internet,180,11,5,6,31200,3100
+2025-07,Nissan Boardman,Lease Return,campaign,64,19,15,4,52400,</div>
+
+  <table>
+    <tr><th>Column</th><th>Needed</th><th>Notes</th></tr>
+    <tr><td><code>period</code></td><td class="req">Yes</td><td class="n">Month, not day. Daily is more data and a worse dashboard.</td></tr>
+    <tr><td><code>store</code></td><td class="req">Yes</td><td class="n">One rooftop? Put the same value on every row.</td></tr>
+    <tr><td><code>source</code></td><td class="req">Yes</td><td class="n">Exactly as your CRM names it. Do not tidy it up.</td></tr>
+    <tr><td><code>lead_type</code></td><td class="req">Yes</td><td class="n">internet, phone, campaign, chat, showroom or service</td></tr>
+    <tr><td><code>leads</code></td><td class="req">Yes</td><td class="n">Leads received from that source that month</td></tr>
+    <tr><td><code>sales</code></td><td class="req">Yes</td><td class="n">Units attributed to that source</td></tr>
+    <tr><td><code>gross</code></td><td class="req">Yes</td><td class="n">Whole dollars. No dollar sign, no commas.</td></tr>
+    <tr><td><code>new_sales</code>, <code>used_sales</code></td><td class="n">Optional</td><td class="n">Unlocks the new versus used split panel</td></tr>
+    <tr><td><code>budget</code></td><td class="n">Optional</td><td class="n">Ad spend. Unlocks cost per lead, cost per sale and ROI.</td></tr>
+  </table>
+
+  <div class="callout" style="margin-top:26px">
+    <h3>How much history</h3>
+    <p><b>Twelve months is enough.</b> Twenty-four makes year over year real. Thirty-six shows a source that died eighteen months ago.</p>
+    <p>Do not delay the export trying to get three years out of a stubborn CRM. Twelve months in hand beats three years in a ticket queue.</p>
+  </div>
+
+  <div class="callout">
+    <h3>Ask your CRM for "lead source performance by month, with sales and gross"</h3>
+    <p>Every system calls it something different. <b>VinSolutions:</b> Reports, Lead Source ROI, set the range to 12+ months and group by month. <b>DealerSocket:</b> Reports, Lead Source Analysis, export detail not summary. <b>eLead:</b> Analytics, Lead Source Performance, export to Excel. <b>Reynolds or CDK:</b> usually a custom report request.</p>
+    <p>Foureyes customers: ask Foureyes. Lead source, month, leads, sales and gross is what they track.</p>
+  </div>
+
+  <div class="callout warn">
+    <h3>Could not get the export? Come anyway.</h3>
+    <p>The toolkit ships a sample dataset: 36 months, 3 stores, 12 sources, with dead and declining sources planted in it. <b>We run the first 80 minutes on it so every screen matches mine.</b> You swap your own file in at the end.</p>
+  </div>
+</div></section>
+
+<section id="setup"><div class="wrap">
+  <h2>Setup checklist</h2>
+  <p class="slug">About 25 minutes. Finish it before you arrive; setup on the day costs the room twenty minutes.</p>
+
+  <div class="os">
+    <button class="ost on" data-set="mac">macOS</button>
+    <button class="ost" data-set="win">Windows</button>
+  </div>
+
+  <ol class="steps" style="margin-top:26px">
+    <li>
+      <h3>A Claude paid plan <span class="opt need">Required</span></h3>
+      <p>Pro ($20/month) is enough. Max, Team, Enterprise and Console also work. <b>The free plan does not include Claude Code.</b></p>
+    </li>
+    <li>
+      <h3>Install Claude Code <span class="opt need">Required</span></h3>
+      <p data-os="mac" class="show">Open Terminal (press Cmd+Space, type "Terminal") and paste this.</p>
+      <div class="code" data-os="mac">curl -fsSL https://claude.ai/install.sh | bash</div>
+      <p data-os="win">Open <b>PowerShell</b> (press Start, type "PowerShell"). You do not need to run it as Administrator.</p>
+      <div class="code" data-os="win">irm https://claude.ai/install.ps1 | iex</div>
+      <p data-os="win">If you get <code>'irm' is not recognized</code>, you are in Command Prompt rather than PowerShell. Either open PowerShell instead, or use this:</p>
+      <div class="code" data-os="win">curl -fsSL https://claude.ai/install.cmd -o install.cmd &amp;&amp; install.cmd &amp;&amp; del install.cmd</div>
+      <p>Then run <code>claude</code> once and follow the browser prompt to sign in.</p>
+    </li>
+    <li>
+      <h3>Install Git <span class="opt need">Required</span></h3>
+      <p data-os="mac" class="show">Run <code>git --version</code>. If it is missing, macOS offers to install it for you. Accept.</p>
+      <div class="code" data-os="mac">git --version</div>
+      <p data-os="win">Install <a href="https://git-scm.com/downloads/win">Git for Windows</a>. Accept the defaults. Without it Claude Code uses PowerShell, and the session assumes Git Bash.</p>
+    </li>
+    <li>
+      <h3>Install Node.js <span class="opt need">Required</span></h3>
+      <p>Get the <b>LTS</b> build from <a href="https://nodejs.org/en/download">nodejs.org</a> and accept the defaults.</p>
+    </li>
+    <li>
+      <h3>A GitHub account <span class="opt">Optional</span></h3>
+      <p>Only if you want to keep your dashboard in a repo later. Not needed for the session.</p>
+    </li>
+    <li>
+      <h3>A Vercel account <span class="opt">Optional</span></h3>
+      <p>Only if you want a live URL at the end. Free, at <a href="https://vercel.com/signup">vercel.com/signup</a>. If you make one, log in once from the terminal after installing Node:</p>
+      <div class="code">npx vercel login</div>
+      <p>The session ends with the dashboard running on your laptop either way.</p>
+    </li>
+    <li>
+      <h3>Download the toolkit</h3>
+      <p>Download it from <a href="https://bit.ly/OhMyDash2026"><b>bit.ly/OhMyDash2026</b></a>, unzip it, and put the <code>ohmydash</code> folder on your Desktop. Then open a terminal in it:</p>
+      <div class="code" data-os="mac">cd ~/Desktop/ohmydash</div>
+      <div class="code" data-os="win">cd $HOME\Desktop\ohmydash</div>
+    </li>
+    <li>
+      <h3>Put your CSV in that folder <span class="opt">Optional</span></h3>
+      <p>Name it <code>my-data.csv</code> and drop it next to everything else. No export? Skip this; the sample data is in there.</p>
+    </li>
+  </ol>
+
+  <h2 style="margin-top:56px">Verify it worked</h2>
+  <p class="slug">Run these three. If each prints a version, you are done.</p>
+  <div class="code">claude --version   <span class="c"># e.g. 2.1.211 (Claude Code)</span>
+git --version      <span class="c"># e.g. git version 2.43.0</span>
+node --version     <span class="c"># e.g. v22.11.0</span></div>
+  <p class="slug" style="margin-top:16px"><code>claude doctor</code> runs a fuller check.</p>
+  <div class="callout warn">
+    <h3>If something fails, message me before the event, not on the day</h3>
+    <p>Ten minutes on a Tuesday beats twenty minutes of the session. <span class="fill">ALEX: phone / email here</span></p>
+  </div>
+</div></section>
+
+<section id="safe"><div class="wrap">
+  <h2>Is my data safe?</h2>
+  <p class="slug">Data safety came up on the pre-workshop call.</p>
+
+  <div class="callout">
+    <h3>Your file stays on your laptop</h3>
+    <p>Claude Code writes a program. The program opens a spreadsheet in a folder on your machine. <b>Nothing uploads it.</b></p>
+    <p>That changes when you deploy. So <b>we put a password on it before it gets a URL</b>, in the session. The risk isn’t the AI. It’s a dashboard on the internet without a lock.</p>
+  </div>
+
+  <div class="callout">
+    <h3>You are a financial institution, so we build like one</h3>
+    <p>Dealers fall under GLBA and the FTC Safeguards Rule if you finance or lease. Penalties run to $50,120 per violation, and the FTC published its first dealer-specific FAQs in June 2025.</p>
+    <p><b>This dashboard needs zero customer records.</b> Monthly counts by lead source are not customer information. Names, emails, phones and buyer-linked VINs are, and we do not use them. Two checks ship in the toolkit:</p>
+    <p><code>/check-my-data</code> reads your export before we build anything and tells you if a column looks like customer information. It reports the column name, never the contents.</p>
+    <p><code>/check-before-deploy</code> runs before the dashboard gets a URL: the password gate fails closed, API routes are covered, no key is exposed to the browser, no data file is committed.</p>
+  </div>
+
+  <p class="slug" style="margin-top:22px">The long version is in <code>SECURITY.md</code>. Read it on the plane.</p>
+</div></section>
+
+<section class="faq"><div class="wrap">
+  <h2>Before you ask</h2>
+    <div class="faq">
+    <details><summary>Do I need to know how to code?</summary><div class="a">
+      <p>No. You paste prompts that are already written and decide whether you believe what comes back.</p>
+      <p>Check the results against the numbers you normally see. <b>A source at a 400% closing ratio is yours to spot.</b></p>
+    </div></details>
+    <details><summary>What does this cost?</summary><div class="a">
+      <p>Claude Pro, $20/month. Node and Git are free. GitHub and Vercel are optional and also free.</p>
+    </div></details>
+    <details><summary>I am on Windows. Will this work?</summary><div class="a">
+      <p>Yes. Every command has a Windows form; the toggle above switches them. Claude Code runs on Windows 10 1809 and later.</p>
+      <p><b>Install Git for Windows.</b> Without it Claude Code uses PowerShell and your screen stops matching mine.</p>
+    </div></details>
+    <details><summary>What if my CRM export does not match those column names?</summary><div class="a">
+      <p>We map your CRM’s column names to the dashboard’s in the session.</p>
+      <p><b>Do not re-export or clean it up by hand.</b> Bring it as it came out.</p>
+    </div></details>
+    <details><summary>What if I cannot get my data in time?</summary><div class="a">
+      <p>Come anyway. The first eighty minutes run on the sample so every screen matches mine. Your own file is the last ten minutes, and it works the same at home.</p>
+    </div></details>
+    <details><summary>Will this connect to my CRM live?</summary><div class="a">
+      <p>Not in ninety minutes. Live CRM feeds, nightly refresh and multi-rooftop permissions are real work. Putting it online is optional too: with a Vercel account it is three commands, behind a password.</p>
+      <p>You leave with a dashboard on an export you can refresh any time. <code>NEXT-STEPS.md</code> covers the rest.</p>
+    </div></details>
+    <details><summary>Do I keep it afterwards?</summary><div class="a">
+      <p>All of it: the folder, the code, the dashboard. The formulas are written out so you can check any number on the screen.</p>
+    </div></details>
+    <details><summary>What if I fall behind during the session?</summary><div class="a">
+      <p>Every prompt is on <a href="deck.html">the session page</a> with a Copy button. Tap a step number to jump to it. Open it on your phone.</p>
+    </div></details>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <p><b>OhMyDash!</b> is part of Claude for Dealers, Atlanta.</p>
+  <p style="margin-top:9px">Bring the CSV. Bring a laptop that is already set up. Bring the question you have been trying to get an answer to.</p>
+  <p style="margin-top:18px"><a href="deck.html">Open the session deck &rarr;</a></p>
+</div></footer>
+
+<script>
+// OS switch. Defaults to the visitor's own platform, because a dealer on Windows
+// should not have to notice a toggle to get the right command.
+const isWin = /Win/i.test(navigator.platform||"") || /Windows/i.test(navigator.userAgent||"");
+function setOS(os){
+  document.querySelectorAll("[data-os]").forEach(el=>el.classList.toggle("show", el.dataset.os===os));
+  document.querySelectorAll(".ost").forEach(b=>b.classList.toggle("on", b.dataset.set===os));
+  try{ localStorage.setItem("ohmydash-os", os) }catch(e){}
+}
+document.querySelectorAll(".ost").forEach(b=>b.onclick=()=>setOS(b.dataset.set));
+let saved=null; try{ saved=localStorage.getItem("ohmydash-os") }catch(e){}
+setOS(saved || (isWin?"win":"mac"));
+
+// Copy buttons on every code block.
+document.querySelectorAll(".code").forEach(block=>{
+  const btn=document.createElement("button");
+  btn.className="cp"; btn.textContent="Copy";
+  btn.onclick=()=>{
+    const t=block.cloneNode(true);
+    t.querySelectorAll(".cp").forEach(x=>x.remove());
+    t.querySelectorAll(".c").forEach(x=>x.remove());     // drop the trailing comments
+    const txt=t.textContent.replace(/[ \t]+$/gm,"").trim();
+    const ok=()=>{btn.textContent="Copied";btn.classList.add("ok");setTimeout(()=>{btn.textContent="Copy";btn.classList.remove("ok")},1400)};
+    if(navigator.clipboard&&isSecureContext){navigator.clipboard.writeText(txt).then(ok).catch(fb)}else fb();
+    function fb(){const a=document.createElement("textarea");a.value=txt;a.style.cssText="position:fixed;opacity:0";
+      document.body.appendChild(a);a.select();try{document.execCommand("copy");ok()}catch(_){}document.body.removeChild(a)}
+  };
+  block.appendChild(btn);
+});
+</script>
+</body>
+</html>

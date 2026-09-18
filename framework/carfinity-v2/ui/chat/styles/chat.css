@@ -1,0 +1,535 @@
+/* ──────────────────────────────────────────────────────────────────────
+   Rankmatic chat module — self-contained styles.
+   Ported verbatim (as plain CSS) from rankmatic_ga4 src/assets/styles/main.css.
+   Only the chat-critical rules are included: design tokens, chat-lock,
+   .magic-* components, markdown-content, and the utility classes the chat
+   components depend on. No @apply — everything is plain CSS.
+   ────────────────────────────────────────────────────────────────────── */
+
+/* ─── Service Bay design tokens ────────────────────────────────────── */
+:root {
+  --color-bg:            oklch(0.16 0.006 270);
+  --color-bg-elev:       oklch(0.20 0.006 270);
+  --color-bg-raised:     oklch(0.24 0.008 270);
+  --color-surface:       oklch(0.22 0.008 270);
+  --color-surface-hover: oklch(0.27 0.010 270);
+  --color-hairline:      oklch(0.32 0.008 270);
+  --color-hairline-bold: oklch(0.42 0.010 270);
+
+  --color-fg:            oklch(0.97 0.003 270);
+  --color-fg-muted:      oklch(0.78 0.008 270);
+  --color-fg-subtle:     oklch(0.62 0.010 270);
+  --color-fg-faint:      oklch(0.46 0.012 270);
+
+  --color-brand:         oklch(0.685 0.169 277);
+  --color-brand-deep:    oklch(0.585 0.203 277);
+  --color-brand-fg:      oklch(1 0 0);
+  --color-brand-soft:    oklch(0.685 0.169 277 / 0.16);
+  --color-brand-border:  oklch(0.685 0.169 277 / 0.42);
+
+  --color-alert:         oklch(0.65 0.20 28);
+  --color-alert-soft:    oklch(0.65 0.20 28 / 0.16);
+  --color-positive:      oklch(0.78 0.14 150);
+  --color-positive-soft: oklch(0.78 0.14 150 / 0.16);
+  --color-warn:          oklch(0.82 0.16 90);
+  --color-warn-soft:     oklch(0.82 0.16 90 / 0.18);
+
+  --chat-font-sans:    'Inter Tight', 'Inter', system-ui, sans-serif;
+  --chat-font-display: 'Montserrat', 'Inter Tight', system-ui, sans-serif;
+  --chat-font-mono:    'Geist Mono', ui-monospace, 'JetBrains Mono', monospace;
+}
+
+/* ─── Viewport lock (applied by the chat view onMounted) ──────────────
+   Applied so the document itself can't scroll/rubber-band on mobile while
+   the in-page chat scroll container is active. */
+html.chat-lock, body.chat-lock {
+  height: 100%;
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
+/* ─── Utilities the chat depends on ───────────────────────────────────
+   These map to the Tailwind v3 utility classes from the main app's CSS.
+   Generated here as plain CSS so they exist regardless of Tailwind v4. */
+.surface-raised {
+  background: var(--color-surface);
+  border: 1px solid var(--color-hairline);
+  border-radius: 0.625rem;
+  box-shadow:
+    0 1px 0 0 oklch(1 0 0 / 0.03) inset,
+    0 0 0 1px oklch(1 0 0 / 0.015);
+}
+.hairline { border-bottom: 1px solid var(--color-hairline); }
+
+.microlabel {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-fg-subtle);
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.125rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  border: 1px solid var(--color-hairline);
+  background: var(--color-surface);
+  color: var(--color-fg-muted);
+  white-space: nowrap;
+}
+
+.text-balance { text-wrap: balance; }
+
+.bg-sick-gradient {
+  background: var(--color-brand);
+}
+.text-sick-gradient {
+  background: linear-gradient(135deg, var(--color-brand) 0%, var(--color-brand-deep) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.shadow-brand-glow {
+  box-shadow: 0 8px 32px -8px var(--color-brand);
+}
+.bg-subtle-glow {
+  background: radial-gradient(ellipse at 50% 0%, oklch(0.82 0.16 75 / 0.10) 0%, transparent 60%);
+}
+.border-gradient {
+  border: 1px solid var(--color-brand-border);
+}
+
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Font-family utilities the chat components use. Scoped as plain CSS so
+   they match the main app without overriding rankmatic-v2's global fonts. */
+.chat-shell .font-mono,
+.chat-shell.font-mono { font-family: var(--chat-font-mono); }
+.chat-shell .font-display,
+.chat-shell.font-display { font-family: var(--chat-font-display); }
+.chat-shell .font-sans,
+.chat-shell.font-sans { font-family: var(--chat-font-sans); }
+
+/* ─── Animations ─────────────────────────────────────────────────── */
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 0 0 var(--color-brand-soft); }
+  50%      { box-shadow: 0 0 0 12px transparent; }
+}
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-pulse-glow { animation: pulse-glow 2s infinite; }
+.animate-fade-up    { animation: fade-up 0.4s cubic-bezier(0.16, 1, 0.3, 1) both; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* ─── Markdown content (chat assistant output) ───────────────────── */
+.markdown-content h1,
+.markdown-content h2,
+.markdown-content h3,
+.markdown-content h4 {
+  font-family: var(--chat-font-display);
+  font-weight: 400;
+  letter-spacing: -0.018em;
+  margin-top: 1.1em;
+  margin-bottom: 0.5em;
+  color: var(--color-fg);
+}
+.markdown-content h1 { font-size: 1.375rem; font-weight: 500; }
+.markdown-content h2 {
+  font-size: 1.125rem;
+  border-bottom: 1px solid var(--color-hairline);
+  padding-bottom: 0.4em;
+}
+.markdown-content h3 { font-size: 1rem; color: var(--color-fg-muted); }
+.markdown-content h4 {
+  font-size: 0.875rem;
+  font-family: var(--chat-font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--color-fg-subtle);
+  font-weight: 500;
+}
+
+.markdown-content p { margin-bottom: 0.6em; line-height: 1.6; }
+.markdown-content p + ul,
+.markdown-content p + ol { margin-top: -0.25em; }
+
+.markdown-content ul,
+.markdown-content ol {
+  margin-left: 1.5em;
+  margin-bottom: 0.6em;
+}
+.markdown-content ul { list-style-type: disc; }
+.markdown-content ol { list-style-type: decimal; }
+.markdown-content li { margin-bottom: 0.3em; line-height: 1.55; }
+.markdown-content li::marker { color: var(--color-brand); }
+
+.markdown-content code {
+  background: var(--color-bg-elev);
+  border: 1px solid var(--color-hairline);
+  padding: 0.1em 0.4em;
+  border-radius: 4px;
+  font-family: var(--chat-font-mono);
+  font-size: 0.85em;
+  color: var(--color-brand);
+}
+.markdown-content pre {
+  background: var(--color-bg-elev);
+  border: 1px solid var(--color-hairline);
+  padding: 0.9em 1em;
+  border-radius: 8px;
+  overflow-x: auto;
+  margin-bottom: 0.6em;
+  font-family: var(--chat-font-mono);
+  font-size: 0.85em;
+}
+.markdown-content pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--color-fg);
+}
+
+.markdown-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 0.6em;
+  font-size: 0.8125rem;
+  font-variant-numeric: tabular-nums;
+  display: block;
+  overflow-x: auto;
+}
+.markdown-content th,
+.markdown-content td {
+  border: 1px solid var(--color-hairline);
+  padding: 0.5em 0.75em;
+  text-align: left;
+  white-space: nowrap;
+}
+.markdown-content th {
+  background: var(--color-bg-elev);
+  font-family: var(--chat-font-mono);
+  text-transform: uppercase;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  color: var(--color-fg-subtle);
+}
+.markdown-content td { color: var(--color-fg-muted); }
+.markdown-content tr:hover td { background: var(--color-bg-elev); }
+
+.markdown-content strong { font-weight: 600; color: var(--color-fg); }
+.markdown-content em    { font-style: italic; color: var(--color-fg); }
+.markdown-content a {
+  color: var(--color-brand);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  text-decoration-thickness: 1px;
+}
+.markdown-content a:hover { color: var(--color-fg); }
+
+.markdown-content blockquote {
+  border-left: 2px solid var(--color-brand);
+  padding-left: 1em;
+  margin: 0.75em 0;
+  color: var(--color-fg-muted);
+  font-style: italic;
+}
+
+.markdown-content hr {
+  border: none;
+  border-top: 1px solid var(--color-hairline);
+  margin: 1.2em 0;
+}
+
+.markdown-content img {
+  max-width: 100%;
+  border-radius: 8px;
+  border: 1px solid var(--color-hairline);
+}
+
+/* ─── Magical chat components ─────────────────────────────────────── */
+
+.magic-hypothesis {
+  margin: 18px 0;
+  padding: 16px 18px;
+  border: 1px solid var(--color-brand-border);
+  background: var(--color-brand-soft);
+  border-left: 3px solid var(--color-brand);
+  border-radius: 8px;
+}
+.magic-hypothesis::before {
+  content: 'HYPOTHESIS';
+  display: block;
+  font-family: var(--chat-font-mono);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  font-weight: 500;
+  color: var(--color-brand);
+  margin-bottom: 10px;
+}
+.magic-hypothesis > p {
+  margin: 0 0 0.5em 0;
+  color: var(--color-fg);
+  line-height: 1.55;
+}
+.magic-hypothesis > p:last-child { margin-bottom: 0; }
+
+.magic-phase {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  margin: 32px 0 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--color-hairline);
+}
+.magic-phase .phase-num {
+  font-family: var(--chat-font-mono);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-fg-faint);
+  flex-shrink: 0;
+}
+.magic-phase .phase-title {
+  font-family: var(--chat-font-display);
+  font-weight: 400;
+  font-size: 17px;
+  letter-spacing: -0.018em;
+  color: var(--color-fg);
+}
+
+.magic-finding {
+  margin: 16px 0;
+  padding: 14px 16px;
+  background: var(--color-bg-elev);
+  border: 1px solid var(--color-hairline);
+  border-radius: 8px;
+}
+.magic-finding::before {
+  content: 'FINDING';
+  display: block;
+  font-family: var(--chat-font-mono);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  font-weight: 500;
+  color: var(--color-fg-subtle);
+  margin-bottom: 4px;
+}
+.magic-finding .finding-title {
+  font-family: var(--chat-font-display);
+  font-weight: 500;
+  font-size: 15px;
+  letter-spacing: -0.012em;
+  color: var(--color-fg);
+  margin-bottom: 8px;
+}
+.magic-finding > p {
+  margin: 0 0 0.4em 0;
+  line-height: 1.55;
+  color: var(--color-fg-muted);
+}
+.magic-finding > p:last-child { margin-bottom: 0; }
+
+.magic-bottom-line {
+  margin: 28px 0 16px;
+  padding: 22px 24px;
+  background: linear-gradient(180deg, var(--color-bg-raised), var(--color-bg-elev));
+  border: 1px solid var(--color-brand);
+  border-left: 4px solid var(--color-brand);
+  border-radius: 8px;
+  box-shadow:
+    0 1px 0 0 oklch(1 0 0 / 0.04) inset,
+    0 12px 32px -16px oklch(0.82 0.16 75 / 0.30);
+}
+.magic-bottom-line::before {
+  content: 'BOTTOM LINE';
+  display: block;
+  font-family: var(--chat-font-mono);
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  font-weight: 500;
+  color: var(--color-brand);
+  margin-bottom: 12px;
+}
+.magic-bottom-line > p {
+  margin: 0 0 0.5em 0;
+  font-size: 15.5px;
+  line-height: 1.6;
+  color: var(--color-fg);
+}
+.magic-bottom-line > p:last-child { margin-bottom: 0; }
+.magic-bottom-line strong { color: var(--color-fg); font-weight: 600; }
+
+.magic-recs {
+  margin: 18px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.magic-rec {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 14px;
+  border: 1px solid var(--color-hairline);
+  background: var(--color-surface);
+  border-radius: 8px;
+  transition: border-color 200ms, background 200ms;
+}
+.magic-rec:hover {
+  border-color: var(--color-hairline-bold);
+  background: var(--color-surface-hover);
+}
+.magic-rec .rec-badge {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 36px;
+  height: 24px;
+  padding: 0 8px;
+  border-radius: 4px;
+  font-family: var(--chat-font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  margin-top: 1px;
+}
+.magic-rec.p0 .rec-badge { background: var(--color-alert); color: oklch(0.97 0.004 80); }
+.magic-rec.p1 .rec-badge { background: var(--color-brand); color: var(--color-brand-fg); }
+.magic-rec.p2 .rec-badge { background: var(--color-bg-raised); color: var(--color-fg-muted); border: 1px solid var(--color-hairline-bold); }
+.magic-rec.p3 .rec-badge { background: var(--color-bg-elev); color: var(--color-fg-faint); border: 1px solid var(--color-hairline); }
+.magic-rec .rec-body {
+  flex: 1;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--color-fg);
+}
+.magic-rec .rec-body strong { font-weight: 600; }
+
+.magic-recs-header {
+  font-family: var(--chat-font-mono);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  font-weight: 500;
+  color: var(--color-fg-subtle);
+  text-transform: uppercase;
+  margin: 24px 0 10px;
+}
+
+@keyframes stagger-up {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.magic-stagger > * {
+  animation: stagger-up 400ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.magic-stagger > *:nth-child(1)  { animation-delay: 0ms; }
+.magic-stagger > *:nth-child(2)  { animation-delay: 80ms; }
+.magic-stagger > *:nth-child(3)  { animation-delay: 160ms; }
+.magic-stagger > *:nth-child(4)  { animation-delay: 240ms; }
+.magic-stagger > *:nth-child(5)  { animation-delay: 320ms; }
+.magic-stagger > *:nth-child(6)  { animation-delay: 400ms; }
+
+/* ─── Thinking trace (conversational opener) ─────────────────────── */
+.magic-thinking {
+  margin: 12px 0 18px;
+  padding: 12px 16px 12px 32px;
+  background: transparent;
+  border-left: 2px solid var(--color-fg-faint);
+  border-radius: 0;
+  font-style: italic;
+  color: var(--color-fg-muted);
+  position: relative;
+}
+.magic-thinking::before {
+  content: '◆';
+  position: absolute;
+  left: 12px;
+  top: 12px;
+  font-style: normal;
+  color: var(--color-brand);
+  font-size: 10px;
+  letter-spacing: 0;
+}
+.magic-thinking > p {
+  margin: 0 0 0.4em 0;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--color-fg-muted);
+}
+.magic-thinking > p:last-child { margin-bottom: 0; }
+
+/* ─── Inline magnitude visualization ─────────────────────────────── */
+.mag-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 1px 6px;
+  border-radius: 10px;
+  font-family: var(--chat-font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  font-feature-settings: 'tnum';
+  vertical-align: 1px;
+  margin: 0 2px;
+}
+.mag-pill.up   { background: oklch(0.42 0.10 152 / 0.18); color: oklch(0.78 0.14 150); border: 1px solid oklch(0.42 0.10 152 / 0.40); }
+.mag-pill.down { background: oklch(0.65 0.20 28 / 0.18); color: oklch(0.78 0.16 30); border: 1px solid oklch(0.65 0.20 28 / 0.40); }
+.mag-pill .arrow { font-size: 9px; line-height: 1; }
+.mag-pill .bar {
+  display: inline-block;
+  width: 28px;
+  height: 4px;
+  border-radius: 2px;
+  background: currentColor;
+  opacity: 0.30;
+  position: relative;
+}
+.mag-pill .bar::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 2px;
+  background: currentColor;
+  opacity: 1;
+  transform-origin: left center;
+  transform: scaleX(var(--mag, 0.3));
+  transition: transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ─── Tool card stagger (within a phase) ─────────────────────────── */
+@keyframes tool-card-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.tool-stagger > * {
+  animation: tool-card-in 320ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.tool-stagger > *:nth-child(1) { animation-delay: 0ms; }
+.tool-stagger > *:nth-child(2) { animation-delay: 120ms; }
+.tool-stagger > *:nth-child(3) { animation-delay: 240ms; }
+.tool-stagger > *:nth-child(4) { animation-delay: 360ms; }
+.tool-stagger > *:nth-child(5) { animation-delay: 480ms; }
+.tool-stagger > *:nth-child(6) { animation-delay: 600ms; }
+.tool-stagger > *:nth-child(n+7) { animation-delay: 720ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  .magic-stagger > * { animation: none !important; }
+  .tool-stagger > * { animation: none !important; }
+}

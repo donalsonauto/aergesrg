@@ -1,0 +1,18 @@
+*.csv
+!sample-data/leads_monthly.csv
+!sample-data/traffic_monthly.csv
+# demo-data/ is fully synthetic (no real dealer, no PII), so it ships with the repo
+!demo-data/*.csv
+!demo-data/normalization/*.csv
+node_modules/
+.next/
+.env*
+# the template that lists the variables is not a secret; keep it in the repo
+!.env.example
+# the dealer's database and anything the framework writes beside it; the shipped demo copy lives in demo-data/
+data/*.db
+data/*.db-*
+data/outbox/
+tsconfig.tsbuildinfo
+# Keynote files are derived from site/deck/*.pptx (see tools/deck/README.md); too large for git
+*.key

@@ -1,0 +1,47 @@
+.layout-wrapper {
+    height: 100vh;
+    display: flex;
+    transition: all 0.2s ease;
+}
+.layout-content-wrapper {
+    flex: 1;
+    height: 100%;
+    overflow: auto;
+    z-index: 9;
+    transition: all 0.2s ease;
+}
+.layout-content-wrapper-inside {
+    max-width: 1540px;
+    height: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+}
+.layout-content {
+    padding: 2rem 2rem 2rem 2rem;
+    flex: 1 1 auto;
+    position: relative;
+}
+
+@media (max-width: 576px) {
+    .layout-content {
+        padding: 1rem;
+    }
+}
+
+/* Full-bleed routes (chat): no padded box, no max-width, content fills the
+   space below the topbar and owns its own scrolling. */
+.layout-content-wrapper--bleed {
+    overflow: hidden;
+
+    .layout-content-wrapper-inside {
+        max-width: none;
+        min-height: 0;
+    }
+
+    .layout-content-wrapper-inside > :last-child {
+        flex: 1 1 auto;
+        min-height: 0;
+        overflow: hidden;
+    }
+}

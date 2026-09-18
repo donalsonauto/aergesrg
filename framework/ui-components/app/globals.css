@@ -1,0 +1,182 @@
+@import "tailwindcss";
+
+/*
+  Carfinity v2 ground truth, taken from the real app's SCSS
+  (reference/v2-ui/layout/scss). Two facts carry the whole look:
+
+  1. `html { font-size: 14px }` (scss/_main.scss). Every Tailwind rem utility is
+     therefore scaled by 0.875, which is why the real page measures text-xs at
+     10.5px, text-3xl at 26.25px, rounded-xl at 10.5px and p-5 at 17.5px. Copy a
+     class string out of a .vue file and it lands on the measured pixel value.
+  2. The palette is PrimeVue's Aura preset with `primary: 'indigo'` and the
+     default dark surface ramp (composables/layout.js). surface-* is Tailwind
+     zinc, primary-* is Tailwind indigo.
+*/
+
+@font-face {
+  font-family: "InterDisplay";
+  src: url("/fonts/InterDisplay-Regular.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "InterDisplay";
+  src: url("/fonts/InterDisplay-Medium.otf") format("opentype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "InterDisplay";
+  src: url("/fonts/InterDisplay-SemiBold.otf") format("opentype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "InterDisplay";
+  src: url("/fonts/InterDisplay-Bold.otf") format("opentype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme {
+  --font-sans: "InterDisplay", Helvetica, Arial, sans-serif;
+
+  /* surface-* — PrimeVue Aura dark surface ramp (Tailwind zinc, 0 = white). */
+  --color-surface-0: #ffffff;
+  --color-surface-50: #fafafa;
+  --color-surface-100: #f4f4f5;
+  --color-surface-200: #e4e4e7;
+  --color-surface-300: #d4d4d8;
+  --color-surface-400: #a1a1aa;
+  --color-surface-500: #71717a;
+  --color-surface-600: #52525b;
+  --color-surface-700: #3f3f46;
+  --color-surface-800: #27272a;
+  --color-surface-900: #18181b;
+  --color-surface-950: #09090b;
+
+  /* primary-* — layoutConfig.primary = 'indigo'. Same ramp as indigo-*. */
+  --color-primary-50: #eef2ff;
+  --color-primary-100: #e0e7ff;
+  --color-primary-200: #c7d2fe;
+  --color-primary-300: #a5b4fc;
+  --color-primary-400: #818cf8;
+  --color-primary-500: #6366f1;
+  --color-primary-600: #4f46e5;
+  --color-primary-700: #4338ca;
+  --color-primary-800: #3730a3;
+  --color-primary-900: #312e81;
+  --color-primary-950: #1e1b4b;
+}
+
+/*
+  Legacy kit tokens, remapped onto the real palette so the KPI cards, drill-down
+  overlay and chat components that were written against them land on the same
+  colors as the shell instead of looking like a second product.
+*/
+@theme inline {
+  --color-bg: var(--color-surface-950);
+  --color-card: var(--color-surface-900);
+  --color-elevated: var(--color-surface-800);
+  --color-line: var(--color-surface-700);
+  --color-fg: var(--color-surface-0);
+  --color-muted: var(--color-surface-400);
+
+  --color-accent: var(--color-primary-400);
+  --color-success: #4ade80;
+  --color-info: #38bdf8;
+  --color-warning: #fbbf24;
+  --color-danger: #f87171;
+}
+
+/* scss/_main.scss */
+html {
+  height: 100%;
+  font-size: 14px;
+  line-height: 1.2;
+  color-scheme: dark;
+}
+
+body {
+  font-family: "InterDisplay", Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  font-size: 1rem; /* 14px */
+  color: var(--color-surface-0);
+  background-color: var(--color-surface-950);
+  padding: 0;
+  margin: 0;
+  min-height: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  text-decoration: none;
+}
+
+/*
+  PrimeVue's `border-surface` utility (tailwindcss-primeui): the content border
+  color, which is surface-700 in the Aura dark scheme.
+*/
+@utility border-surface {
+  border-color: var(--color-surface-700);
+}
+
+/* Uppercase micro-label used above every value. Matches the real page's
+   `text-xs font-medium uppercase tracking-wider` at a 14px root. */
+.kpi-label {
+  font-size: 0.75rem; /* 10.5px */
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--color-surface-400);
+}
+
+/* Thin custom scrollbars keep the dense look calm. */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-surface-700) transparent;
+}
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+*::-webkit-scrollbar-thumb {
+  background: var(--color-surface-700);
+  border-radius: 9999px;
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+@keyframes overlay-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.99);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+.animate-overlay-in {
+  animation: overlay-in 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes section-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.section-stagger {
+  animation: section-fade-in 0.4s ease-out both;
+}

@@ -1,0 +1,498 @@
+<!-- Author: Alex Oleynik, alexanderoleynik2@gmail.com. Find me in the Claude for Dealers Slack (https://claudefordealers.slack.com/team/U0C2J6K79CN) or on LinkedIn (https://www.linkedin.com/in/alexanderoleynik/). Free to use for the Claude for Dealers community. Keep this line when you or your agent change the file, so you know who to ask for help. -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>OhMyDash! - the session</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230a0a0f'/%3E%3Ctext x='50' y='50' font-family='Inter,sans-serif' font-size='62' font-weight='800' fill='%237c6cff' text-anchor='middle' dominant-baseline='central'%3E!%3C/text%3E%3C/svg%3E">
+<meta name="description" content="Build a Revenue Recovery dashboard on your own dealership data in 90 minutes with Claude Code. Every prompt, copy and paste.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0a0f; --bg-card:#14141c; --bg-elev:#1c1c26;
+  --border:rgba(255,255,255,.09); --border-strong:rgba(255,255,255,.16);
+  --fg:#f2f2f7; --fg-muted:#8a8a99;
+  --accent:#7c6cff; --success:#34d399; --info:#22d3ee; --warning:#fbbf24; --danger:#f87171;
+  --sans:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  background:var(--bg);color:var(--fg);font-family:var(--sans);
+  -webkit-font-smoothing:antialiased;overflow:hidden;
+}
+body.list-mode{overflow:auto}
+
+/* ---------- chrome ---------- */
+#bar{
+  position:fixed;top:0;left:0;right:0;height:52px;z-index:60;
+  display:flex;align-items:center;gap:14px;padding:0 18px;
+  background:rgba(10,10,15,.86);backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--border);
+}
+#brand{font-weight:800;font-size:15px;letter-spacing:-.02em;white-space:nowrap}
+#brand span{color:var(--accent)}
+#steps{display:flex;gap:5px;overflow-x:auto;flex:1;scrollbar-width:none;padding:2px 0}
+#steps::-webkit-scrollbar{display:none}
+.sdot{
+  flex:0 0 auto;min-width:26px;height:26px;padding:0 7px;border-radius:7px;
+  border:1px solid var(--border);background:transparent;color:var(--fg-muted);
+  font:600 11px/1 var(--sans);cursor:pointer;transition:.14s;
+  display:flex;align-items:center;justify-content:center;
+}
+.sdot:hover{border-color:var(--border-strong);color:var(--fg)}
+.sdot.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.sdot.done{color:var(--fg);border-color:var(--border-strong)}
+.sdot.mark{border-style:dashed}
+#tools{display:flex;align-items:center;gap:8px;white-space:nowrap}
+.tbtn{
+  background:transparent;border:1px solid var(--border);color:var(--fg-muted);
+  border-radius:7px;padding:6px 10px;font:600 11px/1 var(--sans);cursor:pointer;transition:.14s;
+}
+.tbtn:hover{border-color:var(--border-strong);color:var(--fg)}
+.tbtn.live{color:var(--accent);border-color:var(--accent)}
+#clock{font:600 12px/1 var(--mono);color:var(--fg-muted);min-width:44px;text-align:right}
+#clock.over{color:var(--warning)}
+
+#prog{position:fixed;top:52px;left:0;height:2px;background:var(--accent);z-index:61;transition:width .25s}
+
+/* ---------- stage ---------- */
+#stage{
+  position:absolute;inset:52px 0 0 0;display:flex;justify-content:center;
+  overflow-y:auto;overflow-x:hidden;
+  padding:clamp(18px,3vh,38px) clamp(20px,5vw,80px) 52px;
+}
+.slide{width:100%;max-width:1180px;display:none;animation:in .22s ease}
+.slide.on{display:block;margin:auto 0}
+@keyframes in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+.eyebrow{
+  display:flex;align-items:center;gap:11px;margin-bottom:clamp(10px,1.6vh,18px);
+  font:700 clamp(10px,1.05vw,12px)/1 var(--sans);letter-spacing:.13em;text-transform:uppercase;
+}
+.eyebrow .tag{color:var(--accent)}
+.eyebrow .time{color:var(--fg-muted);letter-spacing:.08em}
+.eyebrow .rule{flex:1;height:1px;background:var(--border)}
+
+h1{font-size:clamp(34px,5.4vw,76px);font-weight:800;letter-spacing:-.035em;line-height:1.02}
+h2{font-size:clamp(24px,3.1vw,42px);font-weight:700;letter-spacing:-.028em;line-height:1.08}
+.lede{
+  margin-top:clamp(8px,1.3vh,14px);color:var(--fg-muted);
+  font-size:clamp(14px,1.4vw,19px);line-height:1.45;max-width:70ch;
+}
+.lede b{color:var(--fg);font-weight:600}
+
+/* ---------- prompt card ---------- */
+.prompt{
+  margin-top:clamp(12px,1.7vh,20px);background:var(--bg-card);
+  border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:11px;
+  overflow:hidden;
+}
+.phead{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:9px 12px 9px 15px;border-bottom:1px solid var(--border);background:rgba(124,108,255,.05);
+}
+.plabel{font:700 10px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--fg-muted)}
+.copy{
+  background:var(--accent);color:#fff;border:0;border-radius:7px;
+  padding:7px 15px;font:700 12px/1 var(--sans);cursor:pointer;transition:.14s;flex:0 0 auto;
+}
+.copy:hover{filter:brightness(1.12)}
+.copy.ok{background:var(--success)}
+.pbody{
+  padding:clamp(11px,1.5vh,16px) 16px;font-family:var(--mono);
+  font-size:clamp(12.5px,1.1vw,15.5px);line-height:1.55;white-space:pre-wrap;
+  color:#dcdce6;overflow-x:auto;max-height:44vh;overflow-y:auto;
+}
+
+/* ---------- after ---------- */
+.after{display:grid;grid-template-columns:1fr 1fr;gap:clamp(12px,1.6vw,20px);margin-top:clamp(11px,1.6vh,18px)}
+.box{background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:clamp(11px,1.4vh,15px) 15px}
+.box.warn{border-color:rgba(251,191,36,.22)}
+.btitle{
+  font:700 10px/1 var(--sans);letter-spacing:.13em;text-transform:uppercase;
+  color:var(--fg-muted);margin-bottom:9px;display:flex;align-items:center;gap:7px;
+}
+.box.warn .btitle{color:var(--warning)}
+.box ul{list-style:none}
+.box li{
+  font-size:clamp(12.5px,1.05vw,15px);line-height:1.45;color:var(--fg);
+  padding-left:16px;position:relative;margin-bottom:6px;
+}
+.box li:last-child{margin-bottom:0}
+.box li::before{content:"";position:absolute;left:0;top:.58em;width:5px;height:5px;border-radius:50%;background:var(--success)}
+.box.warn li::before{background:var(--warning)}
+.box li em{font-style:italic;color:var(--fg)}
+.box li code{font-family:var(--mono);font-size:.9em;color:var(--info)}
+
+/* ---------- generic content ---------- */
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:clamp(12px,1.6vw,20px);margin-top:clamp(16px,2.4vh,28px)}
+.card{background:var(--bg-card);border:1px solid var(--border);border-radius:11px;padding:clamp(15px,2vh,22px)}
+.card.hero{background:linear-gradient(155deg,rgba(124,108,255,.14),rgba(124,108,255,.03));border-color:rgba(124,108,255,.32)}
+.klabel{font:600 10.5px/1 var(--sans);letter-spacing:.13em;text-transform:uppercase;color:var(--fg-muted);margin-bottom:11px}
+.kval{font-size:clamp(28px,3.5vw,44px);font-weight:800;letter-spacing:-.035em;line-height:1}
+.card.hero .kval{color:var(--accent)}
+.ksub{margin-top:8px;font-size:clamp(12px,1.05vw,14px);color:var(--fg-muted);line-height:1.4}
+
+table{width:100%;border-collapse:collapse;margin-top:clamp(16px,2.4vh,26px);font-size:clamp(13px,1.2vw,17px)}
+th{
+  text-align:left;font:700 10px/1 var(--sans);letter-spacing:.13em;text-transform:uppercase;
+  color:var(--fg-muted);padding:0 14px 11px 0;border-bottom:1px solid var(--border);
+}
+td{padding:11px 14px 11px 0;border-bottom:1px solid var(--border);vertical-align:top;line-height:1.45}
+tr:last-child td{border-bottom:0}
+td.d{color:var(--accent);font-weight:600;white-space:nowrap}
+td.m{color:var(--fg-muted)}
+td code,.lede code,p code{font-family:var(--mono);font-size:.88em;color:var(--info)}
+
+.pill{display:inline-block;padding:4px 10px;border-radius:99px;font:700 10.5px/1.5 var(--sans);letter-spacing:.05em}
+.pill.v{background:rgba(124,108,255,.15);color:var(--accent)}
+.pill.a{background:rgba(251,191,36,.15);color:var(--warning)}
+.pill.r{background:rgba(248,113,113,.15);color:var(--danger)}
+.pill.g{background:rgba(52,211,153,.15);color:var(--success)}
+
+.big{font-size:clamp(19px,2.1vw,29px);font-weight:600;line-height:1.36;letter-spacing:-.015em;margin-top:clamp(16px,2.4vh,26px);max-width:26ch}
+.big .hl{color:var(--accent)}
+.note{margin-top:clamp(14px,2vh,22px);color:var(--fg-muted);font-size:clamp(13px,1.15vw,16px);line-height:1.55;max-width:74ch}
+.note strong{color:var(--fg);font-weight:600}
+
+#hint{
+  position:fixed;bottom:14px;left:0;right:0;text-align:center;z-index:55;
+  font:500 11px/1 var(--sans);color:#4a4a58;pointer-events:none;
+}
+#hint kbd{
+  font-family:var(--mono);background:var(--bg-elev);border:1px solid var(--border);
+  border-radius:4px;padding:2px 5px;color:var(--fg-muted);
+}
+
+/* ---------- list mode ---------- */
+body.list-mode #stage{position:static;display:block;padding:76px clamp(18px,5vw,64px) 90px}
+body.list-mode #hint{display:none}
+body.list-mode .slide{display:block;max-width:900px;margin:0 auto 26px;padding-bottom:26px;border-bottom:1px solid var(--border);animation:none}
+body.list-mode .slide:last-child{border-bottom:0}
+body.list-mode .pbody{max-height:none}
+
+@media(max-width:820px){
+  body{overflow:auto}
+  #stage{position:static;display:block;padding:72px 16px 80px}
+  .slide{display:block;max-width:none;margin:0 auto 26px;padding-bottom:26px;border-bottom:1px solid var(--border);animation:none}
+  .slide:last-child{border-bottom:0}
+  .after{grid-template-columns:1fr}
+  .pbody{max-height:none;font-size:12.5px}
+  #hint,#clock,#tools .hide-sm{display:none}
+  h1{font-size:31px}h2{font-size:24px}
+  table{font-size:13px}
+  th:nth-child(3),td:nth-child(3){display:none}
+}
+</style>
+</head>
+<body>
+
+<div id="bar">
+  <div id="brand">OhMyDash<span>!</span></div>
+  <div id="steps"></div>
+  <div id="tools">
+    <button class="tbtn hide-sm" id="tlist">List</button>
+    <button class="tbtn hide-sm" id="ttimer">Timer</button>
+    <span id="clock">90:00</span>
+  </div>
+</div>
+<div id="prog" style="width:0"></div>
+<div id="stage"></div>
+<div id="hint"><kbd>&larr;</kbd> <kbd>&rarr;</kbd> move &nbsp;&middot;&nbsp; <kbd>L</kbd> list view &nbsp;&middot;&nbsp; <kbd>T</kbd> timer &nbsp;&middot;&nbsp; tap a number to jump</div>
+
+<script>
+const S = [
+{kind:"title",title:`OhMyDash<span style="color:var(--accent)">!</span>`,
+ lede:`Ninety minutes. Your own CRM export. One dashboard that finds the lead sources that <b>used to make you money and no longer do</b>, and puts a dollar figure on winning them back.`,
+ html:`<div class="cols">
+   <div class="card hero"><div class="klabel">Recoverable revenue</div><div class="kval">$342.3K</div><div class="ksub">on the sample data today</div></div>
+   <div class="card"><div class="klabel">Prompts to paste</div><div class="kval">12</div><div class="ksub">all on this screen</div></div>
+   <div class="card"><div class="klabel">Lines you type</div><div class="kval">0</div><div class="ksub">you review, Claude Code writes</div></div>
+   <div class="card"><div class="klabel">Cost to run</div><div class="kval">$0</div><div class="ksub">beyond the Pro plan you have</div></div>
+ </div>`},
+
+{kind:"framing",tag:"How this works",title:"Open this page on your own device",
+ lede:`Everything I run is on this screen.`,
+ html:`<div class="cols">
+  <div class="card"><div class="klabel">1. On your phone or second screen</div><div class="ksub" style="font-size:15px;color:var(--fg);margin-top:0">Open the same URL you used to get here. It stays live after today.</div></div>
+  <div class="card"><div class="klabel">2. Tap Copy</div><div class="ksub" style="font-size:15px;color:var(--fg);margin-top:0">Every prompt has a Copy button. Paste it straight into Claude Code.</div></div>
+  <div class="card"><div class="klabel">3. Fallen behind?</div><div class="ksub" style="font-size:15px;color:var(--fg);margin-top:0">Tap the step number in the bar at the top.</div></div>
+ </div>
+ <p class="note"><strong>You will not type code today.</strong> You describe what you want and check what comes back. Start by checking the closing ratio against what you normally see.</p>`},
+
+{kind:"framing",tag:"The one idea",title:"Where every number on the screen comes from",
+ lede:`Ten columns of monthly data. Every number on the screen is computed from them. Nothing is typed in.`,
+ html:`<table>
+  <tr><th>On the screen</th><th>Where it comes from</th><th>Imported?</th></tr>
+  <tr><td>Closing ratio</td><td class="m"><code>sales / leads</code></td><td class="d">calculated</td></tr>
+  <tr><td>Avg gross per sale</td><td class="m"><code>gross / sales</code></td><td class="d">calculated</td></tr>
+  <tr><td>Months inactive</td><td class="m">months since the last row with sales above zero</td><td class="d">calculated</td></tr>
+  <tr><td>Peak period</td><td class="m">highest 3 month rolling average of sales</td><td class="d">calculated</td></tr>
+  <tr><td>Recoverable revenue</td><td class="m"><code>(historical run rate - recent run rate) x avg gross</code></td><td class="d">calculated</td></tr>
+ </table>
+ <p class="note">The headline is <strong>two multiplications away from raw CRM rows</strong>. When a vendor disputes it, show your work.</p>`},
+
+{kind:"framing",tag:"How to talk to it",title:"Say the outcome. The files hold the tech.",
+ lede:`You will not say Next.js, TypeScript or test suite today. The guidelines in the folder say all of that. You say what you want, make it prove its work, ask why, and let it loop until it is done.`,
+ html:`<div class="cols">
+   <div class="card"><div class="klabel">Say the outcome</div><div class="ksub" style="color:var(--fg);font-size:15px;margin-top:0">"Build the Revenue Recovery screen." Not how. What.</div></div>
+   <div class="card"><div class="klabel">Make it prove it</div><div class="ksub" style="color:var(--fg);font-size:15px;margin-top:0">"Before you show me anything, check the math and tell me what you checked."</div></div>
+   <div class="card"><div class="klabel">Ask why</div><div class="ksub" style="color:var(--fg);font-size:15px;margin-top:0">"Why did you pick that? What would you do for a bigger group?" Or just: "you pick."</div></div>
+   <div class="card"><div class="klabel">Loop until done</div><div class="ksub" style="color:var(--fg);font-size:15px;margin-top:0">"Keep reviewing and fixing until it looks finished." Or /loop.</div></div>
+ </div>`},
+
+{kind:"framing",tag:"Launch",phase:"Phase 1: the framework",title:"Get the toolkit. Launch Claude Code.",
+ lede:`Download the folder from <b>bit.ly/OhMyDash2026</b>, put it where your projects live (Downloads is fine), open Terminal, go into it, and launch. Two lines. Here is what the switches mean.`,
+ prompt:`cd ~/Projects/ohmydash
+claude --dangerously-skip-permissions --chrome --rc`,
+ see:["<b>Open PROMPTS-MAC.txt</b> (or <b>PROMPTS-WINDOWS.txt</b>) from the folder and keep it next to you. Every prompt today is in there, in order, to copy","<b>bit.ly/OhMyDash2026</b>: the folder. Unzip it, drag it wherever you keep projects, then <code>cd</code> into it (type cd, a space, and drag the folder onto the Terminal window)","<b>--dangerously-skip-permissions</b>: it will not stop to ask may I before every command or file edit. I use it here on purpose: this folder holds nothing you cannot rebuild and no credentials. Drop it once a folder holds a key or a real export","<b>--chrome</b>: Claude in Chrome. It can open your dashboard in the browser, click through it, take screenshots and check its own work","<b>--rc</b>, short for --remote-control: continue this same session from the Claude app on your phone. The work still runs on your laptop"],
+ breaks:["Says it does not know a switch? Your Claude Code is old. Run <code>claude update</code> and try again"]},
+
+{kind:"step",n:1,tag:"Step 1",phase:"Phase 1: the framework",time:"0:00",title:"Start with a summary",
+ lede:`Ask before it builds. One line is enough.`,
+ prompt:`What is this project about? Give me a summary.`,
+ see:["A plain English summary, no code","It names your data files and the guidelines it found","It knows what you are about to build before you say it","Ask this of any project you ever open"],
+ breaks:["Starts writing code anyway? Say stop, answer the question first","Takes a minute? It is reading five documents before it answers. That is the point"]},
+
+{kind:"step",n:2,tag:"Step 2",phase:"Phase 1: the framework",time:"0:08",title:"Verify the data before you build on it",
+ lede:`Plain English. Nobody wants to spend days building on an export that was wrong. Raw tables first, a few totals you can check against the CRM yourself, then the build.`,
+ prompt:`Verify my data first.`,
+ html:`<p class="note">It reports the column, never the contents. <strong>Your numbers do not leave your laptop:</strong> the dashboard is a program that opens a file on your machine. Monthly counts by lead source are not customer data.</p>`,
+ see:["Row count, date range, store and source counts, for both files","Last month's leads and sales by store: open your CRM and check them before anything gets built","A PII verdict, by column name only","A mapping from your column names to the spec names, which you can correct"],
+ breaks:["The totals do not match your CRM? Stop. Fix the export first; every panel would be wrong","It flags a column you need? Tell it which one and why. <code>state</code> on a store row is not PII; on a customer row it is","Under 12 months of history? It will say so. Dormancy detection gets weak"]},
+
+
+{kind:"step",n:3,tag:"Step 3",phase:"Phase 2: the math first",time:"0:14",title:"The math, before any screen",
+ lede:`The long one, six or seven minutes: it sets up the app, installs what it needs, writes every formula and the checks that prove them. Paste it, then we talk.`,
+ prompt:`All right, let's build it.`,
+ see:["It names the numbers it built and the checks it ran","The checks pass","No screen yet. Correct"],
+ breaks:["Wants to build the screen first? Say: prove the numbers first, then the screen","Every source marked dormant? Date parsing failed and everything landed in one month. Ask it to print the distinct periods it found"]},
+
+
+{kind:"step",n:4,tag:"Step 4",phase:"Phase 3: build the dashboard",time:"0:22",title:"Keep going: the Revenue Recovery screen",
+ lede:`You do not have to remember the plan. It does. Tell it to keep going and it builds the next thing it promised.`,
+ prompt:`Keep going.`,
+ see:["It picks up the plan it gave you and builds the Revenue Recovery screen","Four cards, then the source table, biggest opportunity first","It tells you to open a second terminal tab and run npm run dev; do that, leave it open, keep localhost:3000 in the browser","A dead source looks like a cliff when you open its row"],
+ breaks:["Page dead or 'cannot connect'? The server Claude started stopped when its turn ended. Run <code>npm run dev</code> yourself in a second terminal tab and leave it open","All four cards bright? Say <em>one accent color, the rest neutral</em>","Chart is a flat line? It is summing every source instead of filtering to one","Labels colliding on the chart? Ask for a 4 month tick interval","Leave gaps empty. <strong>A plausible wrong number is worse than a gap</strong>"]},
+
+{kind:"step",n:5,tag:"Step 5",phase:"Phase 3: build the dashboard",time:"0:40",title:"Now change something yourself",
+ lede:`The screen is built. This is the part you will do for the rest of your life: look at it, say what you want different, look again.`,
+ prompt:`Add filters for store, date range and lead type. Then move the
+sources worth the most money to the top.`,
+ see:["It changes what you asked for and leaves the rest alone","Now try one of your own: rename a card, reorder the table, change what a tile shows","Do not like it? Say undo that","Nothing you ask for here can break the numbers underneath"],
+ breaks:["Group total does not match the store totals? It averaged ratios. That weights a 40 unit store the same as a 900 unit store","Filters hide lines instead of recomputing? Say: recalculate from the rows, do not hide"]},
+
+{kind:"step",n:6,tag:"Step 6",phase:"Phase 3: build the dashboard",time:"0:46",title:"Keep going: the home page",
+ lede:`Same again. It knows the home page is next, because it said so at the start.`,
+ prompt:`Keep going with the next phase.`,
+ see:["The app now opens on the home page and Revenue Recovery moves to its own page","Big tiles with trend lines, the health score, Do This Now","Every number matches the Revenue Recovery page","You never had to name a file, a component or a screen"],
+ breaks:["Numbers differ between the two pages? It computed them twice. One function per metric; both pages call it","Do This Now reads like prose it made up? It is a rule engine: same input, same output, every time","No budget but a $0 cost per sale? Hide the tile; never a zero for something unknown"]},
+
+{kind:"step",n:7,tag:"Step 7",phase:"Phase 4: finish it",time:"0:58",title:"Let it loop until it is done",
+ lede:`This is the one to steal. You say the standard once, and it keeps working while you do something else. No babysitting.`,
+ prompt:`/loop review this dashboard against the guidelines, fix what you
+find, and stop when a full pass finds nothing to fix`,
+ see:["It runs a pass, fixes what it found, runs again","It stops on its own and tells you the pass came back clean","Check it on your phone while it works","<code>/loop 5m check the deploy and tell me if it is down</code> is the timed form","This is how you buy back your time: say the standard once, walk away"],
+ breaks:["Dealers read these on a phone in a showroom. Check it at phone width before you call it done","Loops are not just for dashboards. Anything you would check twice a day is a loop"]},
+
+{kind:"framing",tag:"Loops",phase:"Phase 4: finish it",title:"Let it keep going until it is done",
+ lede:`Say the standard once and let it iterate. Fixed interval, or self-paced.`,
+ prompt:`/loop keep reviewing this dashboard against the real dashboard and
+the guidelines, fix what you find, and stop when a full pass finds
+nothing to fix`,
+ see:["It runs a pass, fixes, runs again","It tells you when a pass came back clean","<code>/loop 5m check the deploy and tell me if it is down</code> is the timed form"],
+ breaks:["Loops are how you buy back your time: say the standard once and let it iterate"]},
+
+{kind:"step",n:8,tag:"Step 8",phase:"Phase 5: put it online",time:"1:10",title:"Put a lock on the door",
+ lede:`A password today, because it is quick. The real thing is a login by email code; ask for it when you have an afternoon. Then the gate: it has to come back PASS before a URL exists.`,
+ prompt:`Put a password on it.`,
+ after:`/check-before-deploy`,
+ see:["A password file exists","With no password set, it locks everyone out","Then the gate: PASS, or a numbered list. Fix the list and run it again"],
+ breaks:['<code>if (!expected) return NextResponse.next()</code> is the bug. It silently publishes everything the first time an env var does not propagate','Page goes blank right after adding the gate? Stop the dev server and run <code>npm run dev</code> again','"Just for a minute to show someone" is not an exception. An unlisted URL is a URL nobody has found yet']},
+
+{kind:"framing",tag:"Gate",phase:"Phase 5: put it online",title:"The gate",
+ lede:`It checks the lock fails closed, the API is covered, nothing secret reaches the browser, no data file is in git.`,
+ prompt:`/check-before-deploy`,
+ see:["PASS, or a numbered list","Only the kit's sample files tracked by git"],
+ breaks:["Fix every item and run it again until it says PASS, even at 4:55pm"]},
+
+{kind:"step",n:9,tag:"Step 9 (optional)",phase:"Phase 5: put it online",time:"1:16",title:"Put it online",
+ lede:`Only if you want a link today. Vercel is the easy place for a prototype; if you do not have an account, let it tell you the simplest option. It stays behind the password.`,
+ prompt:`Put it online for me.`,
+ see:["A live URL","A password prompt on that URL before any number","A 401, not JSON, on an /api/ route in a private window"],
+ breaks:["A 500 on the first deploy means the password is not set yet. Add it and redeploy","The second check is the one people skip: a gated page in front of an open API is not gated"]},
+
+{kind:"framing",tag:"Do this yourself",phase:"Phase 5: put it online",title:"The one check nobody can run for you",
+ lede:`Two minutes. Do it every single time, including the times you are sure.`,
+ html:`<div class="after" style="grid-template-columns:1fr 1fr">
+   <div class="box"><div class="btitle">1. Private window, no session</div><ul>
+     <li>Open the live URL</li><li>You should hit a password prompt <em>before you see a single number</em></li></ul></div>
+   <div class="box warn"><div class="btitle">2. Then the API, same window</div><ul>
+     <li>Load one <code>/api/</code> route directly</li><li>You want <code>401</code>. If you get JSON, the page is gated and the data is not</li></ul></div>
+ </div>
+ <p class="note"><strong>The second one is the check people skip.</strong> A gated page in front of an open API is not gated.</p>`},
+
+{kind:"step",n:10,tag:"Step 10",phase:"Phase 5b: your own data",time:"1:20",title:"Now build on your own data",
+ lede:`Everything so far ran on the sample so our screens matched. This is the part you take home: your export, then any export.`,
+ prompt:`Now use my own data.`,
+ see:["A mapping table you can read and correct","Your own numbers on the same screen","It asks where each new export came from before it builds on it"],
+ breaks:["Empty treated as zero will quietly wreck your averages. Empty is missing, zero is a real value","Your CRM calls it something different. That is what the mapping step is for"]},
+
+{kind:"framing",tag:"Bonus",phase:"Bonus: talk to it",title:"Bonus: talk to it",
+ lede:`Everything above is the 90 minutes. This adds an AI analyst inside the dashboard and takes about an hour of build on its own. I will run it live; you can paste along or do it at home. It needs an Anthropic API key, which the first prompt walks you through.`,
+ html:`<p class="note">The chat is not a chatbot. It runs tools over your data, investigates in steps, and grounds explanations in a small knowledge folder you can edit. The recipe is <code>recipes/ai-analyst-chat.md</code>; the prompts below build it in four pastes.</p>`},
+
+{kind:"framing",tag:"Knowledge base",phase:"Bonus: talk to it",title:"Give it a memory",
+ lede:`The one prompt behind the "build a knowledge base" slide. Paste it into any project, once.`,
+ prompt:`Build me a knowledge base for this project and every one after it:
+a notes folder where every decision, fix, setup detail and thing I
+tell you goes in as a short note, a search over those notes, and a
+standing rule for you: read the relevant notes before you start
+anything, write a note when you finish anything, and never ask me a
+question the notes already answer. Start it now with what you know
+about this dashboard.`,
+ see:["A notes folder with the first notes written from this build","A search you can run from the terminal","A rule in CLAUDE.md that says read before, write after"],
+ breaks:["It writes essays? Say: one short note per fact, a title and three lines","It stops reading them? The rule goes in CLAUDE.md, not in a chat message"]},
+
+{kind:"step",n:11,tag:"Step 11",phase:"Bonus",time:"bonus",title:"Bonus: an AI analyst inside your dashboard",
+ lede:`The whole thing is already in the folder: the chat, the tools it uses to read your numbers, the knowledge search, the panel. It needs one thing from you, a key.`,
+ prompt:`Add an AI analyst to this dashboard, something I can ask a question
+and watch work.`,
+ see:["<b>Set the spend limit first:</b> console.anthropic.com, Settings, Limits. Ten dollars a day is plenty","<b>Then make the key:</b> console.anthropic.com, Settings, API keys. Paste it where it tells you","Running out of ten dollars is the good problem. A leaked key with no cap is the $10,000 one","The key stays on your laptop and never reaches the browser","It builds the chat, the tools, the knowledge search and the panel from the recipe"],
+ breaks:["No key yet? It shows a calm message with the three steps instead of an error","This one runs about an hour on its own. Start it and let it work"]},
+
+
+
+
+
+
+
+{kind:"framing",tag:"Where next",title:"You own all of it",
+ lede:`The folder is yours. The formulas are readable. Claude Code keeps building with you on Monday.`,
+ html:`<div class="cols">
+   <div class="card"><div class="klabel">Easy from here</div><div class="ksub" style="color:var(--fg);font-size:15px;margin-top:0">Compare two sources on one chart. Export the ranked list to CSV for a vendor meeting. Monthly highlights phrased as questions.</div></div>
+   <div class="card"><div class="klabel">Same math, new column</div><div class="ksub" style="color:var(--fg);font-size:15px;margin-top:0">Salesperson performance. Appointment funnel. Fixed ops. The pattern does not change, only the grouping does.</div></div>
+   <div class="card"><div class="klabel">The framework</div><div class="ksub" style="color:var(--fg);font-size:15px;margin-top:0">A real database for a whole group, drill-downs everywhere, the analyst chat, Google Analytics next to the CRM. <code>FRAMEWORK-PROMPTS.md</code> is the same copy-paste path.</div></div>
+ </div>
+ <p class="note">Read <code>NEXT-STEPS.md</code>. Next session: you learn to talk to what you built.</p>`}
+];
+
+/* ---------- render ---------- */
+const stage=document.getElementById("stage"), stepsEl=document.getElementById("steps");
+const esc=s=>s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+
+S.forEach((s,i)=>{
+  const el=document.createElement("section");
+  el.className="slide"; el.id="s"+i;
+  let h="";
+  if(s.tag||s.time) h+=`<div class="eyebrow"><span class="tag">${s.tag||""}</span>${s.time?`<span class="time">${s.time}</span>`:""}<span class="rule"></span></div>`;
+  h+= s.kind==="title" ? `<h1>${s.title}</h1>` : `<h2>${s.title}</h2>`;
+  if(s.lede) h+=`<p class="lede">${s.lede}</p>`;
+  if(s.prompt) h+=`<div class="prompt">
+      <div class="phead"><span class="plabel">${s.prompt.startsWith("/")||s.prompt.startsWith("vercel")||s.prompt.startsWith("npx vercel")||s.prompt.startsWith("claude ")?"Run this":"Paste into Claude Code"}</span>
+      <button class="copy" data-i="${i}">Copy</button></div>
+      <div class="pbody">${esc(s.prompt)}</div></div>`;
+  if(s.html) h+=s.html;
+  if(s.see||s.breaks){
+    h+=`<div class="after">`;
+    if(s.see)    h+=`<div class="box"><div class="btitle">What you should see</div><ul>${s.see.map(x=>`<li>${x}</li>`).join("")}</ul></div>`;
+    if(s.breaks) h+=`<div class="box warn"><div class="btitle">If it goes sideways</div><ul>${s.breaks.map(x=>`<li>${x}</li>`).join("")}</ul></div>`;
+    h+=`</div>`;
+  }
+  el.innerHTML=h; stage.appendChild(el);
+
+  const d=document.createElement("button");
+  d.className="sdot"+(s.kind!=="step"?" mark":"");
+  d.textContent = s.kind==="step" ? s.n : (s.kind==="title"?"⌂":"◆");
+  d.title=(s.tag?s.tag+" - ":"")+s.title.replace(/<[^>]+>/g,"");
+  d.onclick=()=>go(i); stepsEl.appendChild(d);
+});
+
+let cur=0;
+const dots=[...stepsEl.children];
+
+/* Deep links are by step number, because that is what is on screen and what gets
+   said out loud in the room. #step-7 beats #10. Framing slides fall back to #s<index>. */
+const slug = i => S[i].kind==="step" ? "step-"+S[i].n : "s"+i;
+function idxFromHash(){
+  const h=(location.hash||"").replace(/^#/,"");
+  if(!h) return 0;
+  let m=h.match(/^step-(\d+)$/);
+  if(m){const i=S.findIndex(s=>s.kind==="step"&&s.n===+m[1]); if(i>=0) return i;}
+  m=h.match(/^s(\d+)$/);
+  if(m) return Math.min(S.length-1,+m[1]);
+  if(/^\d+$/.test(h)) return Math.min(S.length-1,+h);   // older links still work
+  return 0;
+}
+function go(i,push){
+  cur=Math.max(0,Math.min(S.length-1,i));
+  document.querySelectorAll(".slide").forEach((el,j)=>el.classList.toggle("on",j===cur));
+  dots.forEach((d,j)=>{d.classList.toggle("on",j===cur);d.classList.toggle("done",j<cur)});
+  dots[cur].scrollIntoView({block:"nearest",inline:"center",behavior:"smooth"});
+  document.getElementById("prog").style.width=(cur/(S.length-1)*100)+"%";
+  if(push!==false && location.hash!=="#"+slug(cur)) history.replaceState(null,"","#"+slug(cur));
+  if(document.body.classList.contains("list-mode")||innerWidth<=820)
+    document.getElementById("s"+cur).scrollIntoView({behavior:"smooth",block:"start"});
+}
+/* A hash change is a same document navigation: the page does NOT reload, so without
+   this a link to #step-7 does nothing at all. */
+addEventListener("hashchange",()=>{const i=idxFromHash(); if(i!==cur) go(i,false)});
+
+/* copy, with a fallback for non secure contexts */
+document.addEventListener("click",e=>{
+  const b=e.target.closest(".copy"); if(!b) return;
+  const txt=S[+b.dataset.i].prompt;
+  const done=()=>{b.textContent="Copied";b.classList.add("ok");setTimeout(()=>{b.textContent="Copy";b.classList.remove("ok")},1400)};
+  if(navigator.clipboard&&isSecureContext){navigator.clipboard.writeText(txt).then(done).catch(fb)}else fb();
+  function fb(){
+    const t=document.createElement("textarea");
+    t.value=txt;t.style.cssText="position:fixed;opacity:0";document.body.appendChild(t);
+    t.select();try{document.execCommand("copy");done()}catch(_){b.textContent="Select it";}
+    document.body.removeChild(t);
+  }
+});
+
+/* list view */
+const tlist=document.getElementById("tlist");
+function toggleList(){
+  const on=document.body.classList.toggle("list-mode");
+  tlist.classList.toggle("live",on); tlist.textContent=on?"Deck":"List";
+  if(!on) go(cur);
+}
+tlist.onclick=toggleList;
+
+/* 90 minute presenter timer */
+const clock=document.getElementById("clock"), ttimer=document.getElementById("ttimer");
+let t0=null,tick=null;
+function fmt(ms){const s=Math.abs(Math.round(ms/1000));return (ms<0?"+":"")+String(Math.floor(s/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0")}
+function toggleTimer(){
+  if(tick){clearInterval(tick);tick=null;t0=null;clock.textContent="90:00";clock.classList.remove("over");ttimer.classList.remove("live");return}
+  t0=Date.now();ttimer.classList.add("live");
+  tick=setInterval(()=>{
+    const left=90*60*1000-(Date.now()-t0);
+    clock.textContent=fmt(left); clock.classList.toggle("over",left<0);
+  },1000);
+}
+ttimer.onclick=toggleTimer;
+
+addEventListener("keydown",e=>{
+  if(/^(INPUT|TEXTAREA)$/.test(e.target.tagName))return;
+  if(e.key==="ArrowRight"||e.key===" "||e.key==="PageDown"){e.preventDefault();go(cur+1)}
+  else if(e.key==="ArrowLeft"||e.key==="PageUp"){e.preventDefault();go(cur-1)}
+  else if(e.key==="Home")go(0); else if(e.key==="End")go(S.length-1);
+  else if(e.key==="l"||e.key==="L")toggleList();
+  else if(e.key==="t"||e.key==="T")toggleTimer();
+  else if(/^[0-9]$/.test(e.key)){
+    const n=+e.key, idx=S.findIndex(s=>s.kind==="step"&&s.n===n); if(idx>=0)go(idx);
+  }
+});
+
+go(idxFromHash(),false);
+</script>
+</body>
+</html>
