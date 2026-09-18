@@ -34,6 +34,35 @@ npm run recovery              # the Revenue Recovery report plus its rule checks
 
 All four pass on the demo data as committed.
 
+## Deploy
+
+The repo is set up for a **GitHub-connected Vercel deploy**, which builds from git rather than
+uploading a local folder:
+
+1. On Vercel, import `donalsonauto/aergesrg` and set **Root Directory** to `dashboard`.
+2. Add the environment variable `DASHBOARD_PASSWORD` (Production) *before* the first deploy.
+   Without it every route returns 500 — that is the gate failing closed, not a bug.
+3. Deploy. `npm run build` runs `prebuild` first, which rebuilds `data/dealer.db` from the
+   committed demo CSVs, so the deployment has data without any file riding along outside git.
+
+Then the check nobody else can do for you: open the URL in a private window with no session.
+You should get a password prompt before a single number, and `/api/kpis` should return 401,
+not JSON.
+
+Three things this setup handles that bite on a first deploy:
+
+- `prebuild` builds the database during the Vercel build. A git-connected deploy has no
+  `data/dealer.db` otherwise, because it is gitignored.
+- `outputFileTracingIncludes` in `next.config.ts` pulls that database into the serverless
+  function bundle. Nothing imports the file, so tracing would not find it on its own.
+- The deployed filesystem is read-only. `npm run load` checkpoints and leaves the database in
+  `journal_mode=delete` so no `-wal` sidecar is needed, and `lib/db.ts` falls back to a
+  read-only handle when opening read-write fails.
+
+If you deploy with `npx vercel --prod` from your laptop instead, note that the Vercel CLI does
+not honor `.gitignore` — it uploads the folder as it stands. Fine on demo data; add a
+`.vercelignore` before any real export goes near it. See [`../AUTH.md`](../AUTH.md).
+
 ## Where the data comes from
 
 `lib/demo-path.ts` resolves the dataset: it uses `./demo-data` if you keep a copy beside the

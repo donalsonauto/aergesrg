@@ -3,7 +3,7 @@
 // runs the schema, and hands back a single shared connection. Every query in the
 // app and the AI analyst chat goes through getDb(). See recipes/data-model.md.
 import Database from "better-sqlite3";
-import { mkdirSync } from "node:fs";
+import { existsSync, mkdirSync } from "node:fs";
 import { dirname, join } from "node:path";
 
 // Resolve from the project root (process.cwd()) so the same path works whether
@@ -14,11 +14,22 @@ let db: Database.Database | null = null;
 
 export function getDb(): Database.Database {
   if (db) return db;
-  mkdirSync(dirname(DB_PATH), { recursive: true });
-  db = new Database(DB_PATH);
-  db.pragma("journal_mode = WAL");
-  db.pragma("foreign_keys = ON");
-  applySchema(db);
+  try {
+    mkdirSync(dirname(DB_PATH), { recursive: true });
+    const writable = new Database(DB_PATH);
+    writable.pragma("journal_mode = WAL");
+    writable.pragma("foreign_keys = ON");
+    applySchema(writable);
+    db = writable;
+  } catch (err) {
+    // A deployed serverless filesystem is read-only, so opening read-write throws.
+    // The database was built by the prebuild step and is only ever read at runtime,
+    // so fall back to a read-only handle rather than taking the whole app down.
+    // If there is genuinely no database to read, the original error is the useful one.
+    if (!existsSync(DB_PATH)) throw err;
+    db = new Database(DB_PATH, { readonly: true });
+    db.pragma("foreign_keys = ON");
+  }
   return db;
 }
 

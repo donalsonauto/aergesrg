@@ -320,3 +320,9 @@ function printReport(reports: FileReport[], manifest: any) {
 }
 
 main();
+// Leave a database that a read-only filesystem can open: fold the WAL back into
+// the main file and drop WAL mode, so a deployed serverless function does not
+// need to create a -wal sidecar just to read.
+const loaded = getDb();
+loaded.pragma("wal_checkpoint(TRUNCATE)");
+loaded.pragma("journal_mode = DELETE");

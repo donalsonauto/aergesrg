@@ -4,6 +4,12 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   // better-sqlite3 is a native module; keep it out of the bundle so it loads at runtime.
   serverExternalPackages: ["better-sqlite3"],
+  // data/dealer.db is built by the prebuild step, not imported, so nothing traces
+  // a reference to it. Include it explicitly or the deployed functions ship without
+  // a database and every query throws at runtime.
+  outputFileTracingIncludes: {
+    "/**": ["./data/dealer.db"],
+  },
   // Recharts ships mixed ESM/CJS; without transpiling it, the production server
   // bundle throws "a[d] is not a function" when SSR-ing the charts. Force Next to
   // compile it so the chunk references resolve.

@@ -10,7 +10,8 @@
     "checks": "tsx scripts/checks.ts",
     "prove": "tsx scripts/prove-rollup.ts",
     "recovery": "tsx scripts/recovery-report.ts",
-    "audit": "tsx scripts/audit-screen.ts"
+    "audit": "tsx scripts/audit-screen.ts",
+    "prebuild": "tsx scripts/load.ts"
   },
   "dependencies": {
     "better-sqlite3": "^11.8.1",
