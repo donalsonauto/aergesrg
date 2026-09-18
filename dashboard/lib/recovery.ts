@@ -166,10 +166,14 @@ export function getRecovery(opts: {
     }
     const monthsInactive = lastActiveMonth == null ? totalMonths : analysisIdx - monthIndex(lastActiveMonth);
 
+    // Highest 3-month rolling average (METRICS.md). Only full 3-month windows count -
+    // a growing window at the start would let a single spike month masquerade as a
+    // 3-month average and inflate the peak.
     let peakMonthlySales = 0;
     let peakPeriod: string | null = null;
-    for (let i = 0; i < salesArr.length; i++) {
-      const avg = mean(salesArr.slice(Math.max(0, i - 2), i + 1));
+    const peakWin = Math.min(3, salesArr.length);
+    for (let i = peakWin - 1; i < salesArr.length; i++) {
+      const avg = mean(salesArr.slice(i - peakWin + 1, i + 1));
       if (avg > peakMonthlySales) { peakMonthlySales = avg; peakPeriod = grid[i]; }
     }
     const recentMonthlySales = mean(salesArr.slice(-3));
